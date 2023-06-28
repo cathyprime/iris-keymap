@@ -1,0 +1,4 @@
+root = true
+[*.{c, mk, h}]
+indent_style = space
+indent_size = 8
