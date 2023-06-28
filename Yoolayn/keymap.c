@@ -44,78 +44,115 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 *             |--|62|--|    |--|28|--|
 */
 
-void capsLock(void) {
+typedef struct {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} LayerColor;
+
+LayerColor layer0_color = {24, 0, 24};
+LayerColor layer1_color = {24, 0, 0};
+LayerColor layer2_color = {0, 0, 24};
+LayerColor layer3_color = {0, 24, 24};
+LayerColor capsLock_color = {0, 24, 0};
+
+void capsLock(uint8_t r, uint8_t g, uint8_t b) {
+    uint8_t indexes[] = {58, 59, 60, 61, 24, 25, 26, 27};
+    size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
+
     if (host_keyboard_led_state().caps_lock) {
-        rgb_matrix_set_color(24, 0, 127, 0)
-        rgb_matrix_set_color(26, 0, 127, 0)
-        rgb_matrix_set_color(27, 0, 127, 0)
-        rgb_matrix_set_color(28, 0, 127, 0)
-        rgb_matrix_set_color(58, 0, 127, 0)
-        rgb_matrix_set_color(59, 0, 127, 0)
-        rgb_matrix_set_color(60, 0, 127, 0)
-        rgb_matrix_set_color(61, 0, 127, 0)
+        for (size_t i = 0; i < numIndexes; i++) {
+            rgb_matrix_set_color(indexes[i], capsLock_color.r, capsLock_color.g, capsLock_color.b);
+        }
+    } else {
+        for (size_t i = 0; i < numIndexes; i++) {
+            rgb_matrix_set_color(indexes[i], r, g, b);
+        }
     }
 }
 
-bool rgb_matrix_indicators_user(void) {
-    uint8_t layer = get_highest_layer(layer_state|default_layer_state);
-    switch (layer) {
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    LayerColor currentColor;
+
+    switch(get_highest_layer(layer_state|default_layer_state)) {
         case 0:
-            rgb_matrix_set_color_all(120, 0, 127);
-            capsLock();
+            currentColor = layer0_color;
             break;
         case 1:
-            rgb_matrix_set_color_all(127, 0, 0);
-            capsLock();
+            currentColor = layer1_color;
             break;
         case 2:
-            rgb_matrix_set_color_all(0, 0, 127);
-            capsLock();
+            currentColor = layer2_color;
             break;
         case 3:
-            rgb_matrix_set_color_all(0, 127, 127);
-            capsLock();
+            currentColor = layer3_color;
             break;
     }
+
+    capsLock(currentColor.r, currentColor.g, currentColor.b);
+    return false;
+}
+
+bool rgb_matrix_indicators_user(void) {
+    LayerColor currentColor;
+
+    switch(get_highest_layer(layer_state|default_layer_state)) {
+        case 0:
+            currentColor = layer0_color;
+            break;
+        case 1:
+            currentColor = layer1_color;
+            break;
+        case 2:
+            currentColor = layer2_color;
+            break;
+        case 3:
+            currentColor = layer3_color;
+            break;
+    }
+
+    rgb_matrix_set_color_all(currentColor.r, currentColor.g, currentColor.b);
+    capsLock(currentColor.r, currentColor.g, currentColor.b);
+
     return true;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case QWERTY:
-      if (record->event.pressed) {
-        set_single_persistent_default_layer(_QWERTY);
-      }
-      return false;
-      break;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case ADJUST:
-      if (record->event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
-      }
-      return false;
-      break;
-  }
-  return true;
+    switch (keycode) {
+        case QWERTY:
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_QWERTY);
+            }
+            return false;
+            break;
+        case LOWER:
+            if (record->event.pressed) {
+                layer_on(_LOWER);
+                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+            } else {
+                layer_off(_LOWER);
+                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+            }
+            return false;
+            break;
+        case RAISE:
+            if (record->event.pressed) {
+                layer_on(_RAISE);
+                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+            } else {
+                layer_off(_RAISE);
+                update_tri_layer(_LOWER, _RAISE, _ADJUST);
+            }
+            return false;
+            break;
+        case ADJUST:
+            if (record->event.pressed) {
+                layer_on(_ADJUST);
+            } else {
+                layer_off(_ADJUST);
+            }
+            return false;
+            break;
+    }
+    return true;
 }
