@@ -26,20 +26,55 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_ADJUST] = LAYOUT(KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, RGB_TOG, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_NO, KC_NO, KC_PMNS, KC_PAST, KC_NO, KC_NO, KC_NO, KC_MUTE, KC_NO, KC_MPLY, KC_NO, KC_NO, KC_NO, KC_NO, TO(_QWERTY), KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO)
 };
 
+/**
+* Here's an LED number guide:
+* FRONT
+* Left Hand                    Right Hand
+* |00|01|02|03|04|05|          |39|38|37|36|35|34|
+* |11|10|09|08|07|06|          |40|41|42|43|44|45|
+* |12|13|14|15|16|17|          |51|50|49|48|47|46|
+* |23|22|21|20|19|18|27|    |61|52|53|54|55|56|57|
+*             |24|25|26|    |60|59|58|
+* REVERSE
+* Right Hand                   Left Hand
+* |65|--|--|66|--|67|          |33|--|32|--|--|31|
+* |--|--|--|--|--|--|          |--|--|--|--|--|--|
+* |--|--|--|--|--|--|          |--|--|--|--|--|--|
+* |64|--|--|63|--|--|--|    |--|--|--|29|--|--|30|
+*             |--|62|--|    |--|28|--|
+*/
+
+void capsLock(void) {
+    if (host_keyboard_led_state().caps_lock) {
+        rgb_matrix_set_color(24, 0, 127, 0)
+        rgb_matrix_set_color(26, 0, 127, 0)
+        rgb_matrix_set_color(27, 0, 127, 0)
+        rgb_matrix_set_color(28, 0, 127, 0)
+        rgb_matrix_set_color(58, 0, 127, 0)
+        rgb_matrix_set_color(59, 0, 127, 0)
+        rgb_matrix_set_color(60, 0, 127, 0)
+        rgb_matrix_set_color(61, 0, 127, 0)
+    }
+}
+
 bool rgb_matrix_indicators_user(void) {
     uint8_t layer = get_highest_layer(layer_state|default_layer_state);
     switch (layer) {
         case 0:
             rgb_matrix_set_color_all(120, 0, 127);
+            capsLock();
             break;
         case 1:
             rgb_matrix_set_color_all(127, 0, 0);
+            capsLock();
             break;
         case 2:
             rgb_matrix_set_color_all(0, 0, 127);
+            capsLock();
             break;
         case 3:
             rgb_matrix_set_color_all(0, 127, 127);
+            capsLock();
             break;
     }
     return true;
