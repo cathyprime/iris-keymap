@@ -44,31 +44,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 *             |--|62|--|    |--|28|--|
 */
 
-typedef struct {
-        uint8_t r;
-        uint8_t g;
-        uint8_t b;
-} LayerColor;
-
-LayerColor layer0_color = {24, 0, 24};
-LayerColor layer1_color = {24, 0, 0};
-LayerColor layer2_color = {0, 0, 24};
-LayerColor layer3_color = {0, 24, 24};
-LayerColor capsLock_color = {0, 24, 0};
-
-void capsLock(uint8_t r, uint8_t g, uint8_t b) {
+void capsLock(void) {
         uint8_t indexes[] = {58, 59, 60, 61, 24, 25, 26, 27};
         size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
 
         if (host_keyboard_led_state().caps_lock) {
                 for (size_t i = 0; i < numIndexes; i++) {
-                        rgb_matrix_set_color(indexes[i], capsLock_color.r, capsLock_color.g, capsLock_color.b);
-                }
-        } else {
-                for (size_t i = 0; i < numIndexes; i++) {
-                        rgb_matrix_set_color(indexes[i], r, g, b);
+                        rgb_matrix_set_color(indexes[i], 0, 24, 0);
                 }
         }
+}
+
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+        capsLock();
+        return true;
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -93,32 +82,8 @@ void keyboard_post_init_user(void) {
         rgb_matrix_enable_noeeprom();
         rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
         rgb_matrix_sethsv_noeeprom(210, 255, 200);
+        rgb_matrix_set_speed(0);
 }
-
-/* bool rgb_matrix_indicators_user(void) { */
-/*         rgb_matrix_get_mode(); */
-/*         LayerColor currentColor; */
-/**/
-/*         switch(get_highest_layer(layer_state|default_layer_state)) { */
-/*                 case 0: */
-/*                         currentColor = layer0_color; */
-/*                         break; */
-/*                 case 1: */
-/*                         currentColor = layer1_color; */
-/*                         break; */
-/*                 case 2: */
-/*                         currentColor = layer2_color; */
-/*                         break; */
-/*                 case 3: */
-/*                         currentColor = layer3_color; */
-/*                         break; */
-/*         } */
-/**/
-/*         rgb_matrix_set_color_all(currentColor.r, currentColor.g, currentColor.b); */
-/*         capsLock(currentColor.r, currentColor.g, currentColor.b); */
-/**/
-/*         return true; */
-/* } */
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         switch (keycode) {
