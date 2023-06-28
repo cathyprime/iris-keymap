@@ -27,17 +27,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool rgb_matrix_indicators_user(void) {
-    uint8_t layer = biton32(layer_state);
+    uint8_t layer = get_highest_layer(layer_state|default_layer_state);
     switch (layer) {
         case 0:
             rgb_matrix_set_color_all(120, 0, 127);
             break;
         case 1:
-            rgb_matrix_set_color_all(127, 0, 0); // rest of keys
+            rgb_matrix_set_color_all(127, 0, 0);
             break;
         case 2:
-            //rgb_matrix_set_color(index, red, green, blue); >> this is the template
-            rgb_matrix_set_color_all(0, 0, 127); // rest of keys
+            rgb_matrix_set_color_all(0, 0, 127);
             break;
         case 3:
             rgb_matrix_set_color_all(0, 127, 127);
