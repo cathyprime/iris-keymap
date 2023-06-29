@@ -154,8 +154,6 @@ void leader_end_user(void) {
                 layer_move(_MUSIC);
         } else if (leader_sequence_one_key(KC_G)) {
                 layer_move(_GAMING);
-        } else if (leader_sequence_three_keys(KC_G, KC_C, KC_S)) {
-                SEND_STRING("git add -A\ngit commit -m ':skull:'\n");
         }
 }
 
