@@ -40,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
     KC_LSFT, KC_LBRC, KC_RBRC,  KC_EQL, KC_MINS, KC_QUOT,                    KC_QUOT, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_RSFT,
 // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-    KC_LCTL,  KC_NO,  KC_COMM,  KC_DOT, KC_BSLS, KC_SLSH,  KC_NO,    TO(0),  KC_SLSH, KC_BSLS, KC_COMM,  KC_DOT,  KC_NO,  KC_CAPS,
+    KC_LCTL,  KC_NO,  KC_COMM,  KC_DOT, KC_BSLS, KC_SLSH,  KC_NO,   QK_LEAD, KC_SLSH, KC_BSLS, KC_COMM,  KC_DOT,  KC_NO,  KC_CAPS,
 // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                          KC_LALT, KC_TRNS, KC_SPC,   KC_ESC,   MO(2), KC_LGUI
 //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -54,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┤                  ├──────────┼────────┼────────┼────────┼──────────┼────────┤
     KC_LSFT, KC_HOME,     KC_NO,     KC_PGDN,  KC_NO,      KC_NO,                        KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT,  KC_NO,   KC_RSFT,
 // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┼────────┐┌────────┼──────────┼────────┼────────┼────────┼──────────┼────────┤
-     KC_NO,   KC_NO,     KC_BSPC,     KC_NO,  KC_LSFT, LCTL(KC_LEFT), KC_NO,    TO(0),    KC_DEL,  KC_BSPC,  KC_NO,   KC_NO,    KC_NO,    KC_NO,
+     KC_NO,   KC_NO,     KC_BSPC,     KC_NO,  KC_LSFT, LCTL(KC_LEFT), KC_NO,   QK_LEAD,   KC_DEL,  KC_BSPC,  KC_NO,   KC_NO,    KC_NO,    KC_NO,
 // └────────┴────────┴──────────────┴────────┼────────┼─────────────┼────────┤├────────┼──────────┼────────┼────────┴────────┴──────────┴────────┘
                                                KC_NO,     KC_TRNS,    KC_NO,    KC_NO,   KC_TRNS,   KC_NO
 //                                           └────────┴─────────────┴────────┘└────────┴──────────┴────────┘
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_NO,  KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,  KC_NO,                      KC_NO,  KC_PMNS, KC_PAST,  KC_NO,   KC_NO,   KC_NO,
 // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-    KC_MUTE,  KC_NO,  KC_MPLY,  KC_NO,   KC_NO,   KC_NO,   KC_NO,    TO(0),   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    KC_MUTE,  KC_NO,  KC_MPLY,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   QK_LEAD,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
 // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                          KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO
 //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -81,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
     KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, SC_RSPC,
 // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-    KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_BSPC,   TO(0),    KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+    KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_BSPC,  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
 // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                         KC_LCTL,  KC_SPC, KC_LALT,   KC_ENT, KC_RALT, KC_LGUI
 //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -145,6 +145,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
                         break;
         }
         return state;
+}
+
+void leader_start_user(void) {
+        layer_move(0);
 }
 
 void leader_end_user(void) {
