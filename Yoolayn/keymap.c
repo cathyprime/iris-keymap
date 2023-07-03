@@ -38,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
     KC_LSFT, KC_LBRC, KC_RBRC,  KC_EQL, KC_MINS, KC_QUOT,                    KC_QUOT, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_RSFT,
 // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-    KC_LCTL,  KC_NO,  KC_COMM,  KC_DOT, KC_BSLS, KC_SLSH,  KC_NO,   QK_LEAD, KC_SLSH, KC_BSLS, KC_COMM,  KC_DOT,  KC_NO,  KC_CAPS,
+    KC_LCTL,  KC_NO,  KC_COMM,  KC_DOT, KC_BSLS, KC_SLSH,  KC_NO,   QK_LEAD, KC_SLSH, KC_BSLS, KC_COMM,  KC_DOT,  KC_NO,  CW_TOGG,
 // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                          KC_LALT, KC_TRNS, KC_SPC,   KC_ESC,   MO(2), KC_LGUI
 //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -122,7 +122,7 @@ void capsLock(void) {
         uint8_t indexes[] = {58, 59, 60, 61, 24, 25, 26, 27};
         size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
 
-        if (host_keyboard_led_state().caps_lock) {
+        if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
                 for (size_t i = 0; i < numIndexes; i++) {
                         rgb_matrix_set_color(indexes[i], 0, 24, 0);
                 }
@@ -190,16 +190,19 @@ enum combo_events {
         GAMING_ESC,
         GAMING_X,
         GAMING_SUPER,
+        ALL_CAPSLOCK,
 };
 
 const uint16_t PROGMEM gaming_esc[] = {KC_GRV, KC_Q, COMBO_END};
 const uint16_t PROGMEM gaming_x[] = {KC_Z, KC_C, COMBO_END};
 const uint16_t PROGMEM gaming_super[] = {KC_LALT, KC_SPC, COMBO_END};
+const uint16_t PROGMEM all_capslock[] = {KC_LSFT, CW_TOGG, COMBO_END};
 
 combo_t key_combos[] = {
         [GAMING_ESC] = COMBO_ACTION(gaming_esc),
         [GAMING_X] = COMBO_ACTION(gaming_x),
         [GAMING_SUPER] = COMBO_ACTION(gaming_super),
+        [ALL_CAPSLOCK] = COMBO_ACTION(all_capslock),
 };
 
 //results
@@ -219,6 +222,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
                         if (pressed) {
                                 tap_code16(KC_LGUI);
                                 tap_code16(KC_LGUI);
+                        }
+                        break;
+                case ALL_CAPSLOCK:
+                        if (pressed) {
+                                tap_code16(KC_CAPS);
                         }
                         break;
         }
