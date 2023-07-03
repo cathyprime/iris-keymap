@@ -122,7 +122,7 @@ void capsLock(void) {
         uint8_t indexes[] = {58, 59, 60, 61, 24, 25, 26, 27};
         size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
 
-        if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
+        if (host_keyboard_led_state().caps_lock | is_caps_word_on()) {
                 for (size_t i = 0; i < numIndexes; i++) {
                         rgb_matrix_set_color(indexes[i], 0, 24, 0);
                 }
