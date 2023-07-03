@@ -7,8 +7,6 @@
 #define _GAMING 4
 #define _GAMING2 5
 
-bool visual_mode = false;
-
 enum custom_keycodes {
         QWERTY = SAFE_RANGE,
         SIGNS,
@@ -187,29 +185,57 @@ void keyboard_post_init_user(void) {
 
 // combo
 // definitions
+
+enum combo_events {
+        GAMING_ESC,
+        GAMING_X,
+        GAMING_SUPER,
+};
+
 const uint16_t PROGMEM gaming_esc[] = {KC_GRV, KC_Q, COMBO_END};
 const uint16_t PROGMEM gaming_x[] = {KC_Z, KC_C, COMBO_END};
 const uint16_t PROGMEM gaming_super[] = {KC_LALT, KC_SPC, COMBO_END};
 
-//results
 combo_t key_combos[] = {
-        COMBO(gaming_esc, KC_ESC),
-        COMBO(gaming_x, KC_X),
-        COMBO(gaming_super, KC_LGUI),
+        [GAMING_ESC] = COMBO_ACTION(gaming_esc),
+        [GAMING_X] = COMBO_ACTION(gaming_x),
+        [GAMING_SUPER] = COMBO_ACTION(gaming_super),
 };
+
+//results
+void process_combo_event(uint16_t combo_index, bool pressed) {
+        switch (combo_index) {
+                case GAMING_ESC:
+                        if(pressed) {
+                                tap_code16(KC_ESC);
+                        }
+                        break;
+                case GAMING_X:
+                        if (pressed) {
+                                tap_code16(KC_X);
+                        }
+                        break;
+                case GAMING_SUPER:
+                        if (pressed) {
+                                tap_code16(KC_LGUI);
+                                tap_code16(KC_LGUI);
+                        }
+                        break;
+        }
+}
 
 //restrictions
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
         switch (combo_index) {
-                case 0:
+                case GAMING_ESC:
                         return layer_state_is(4);
-                break;
-                case 1:
+                        break;
+                case GAMING_X:
                         return layer_state_is(4);
-                break;
-                case 2:
+                        break;
+                case GAMING_SUPER:
                         return layer_state_is(4);
-                break;
+                        break;
         }
         return true;
 }
