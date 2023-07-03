@@ -238,7 +238,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         } else {
                                 layer_off(_SIGNS);
                                 update_tri_layer(_SIGNS, _VIM, _MUSIC);
-                                
                         }
                         return false;
                         break;
@@ -262,10 +261,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         break;
                 case MODL:
                         if (record->event.pressed) {
-                                modl();
+                                layer_on(1);
+                                if (get_mods() & MOD_BIT(KC_RALT)) {
+                                        layer_on(2);
+                                }
+                                return false;
                         } else {
-                                layer_move(0);
+                                layer_off(1);
                         }
+                        break;
+                case OSM(MOD_RALT):
+                        if (!record->event.pressed & layer_state_is(2)) {
+                                layer_off(2);
+                        }
+                        break;
         }
         return true;
 }
