@@ -160,17 +160,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         return true;
 }
 
-void housekeeping_task_user(void) {
-        if(is_keyboard_master()) {
-                static uint32_t last_sync = 0;
-                if (timer_elapsed32(last_sync) > 50) {
-                        bool active = is_caps_word_on();
-                        if(transaction_rpc_send(CAPS_WORD_SYNC, sizeof(active), &active)) {
-                                last_sync = timer_read32();
-                        }
-
-                }
-        }
+void caps_word_set_user(bool active) {
+        transaction_rpc_send(CAPS_WORD_SYNC, sizeof(active), &active);
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
