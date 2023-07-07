@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "transactions.h"
 
 #define _QWERTY 0
 #define _SIGNS 1
@@ -132,13 +133,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 */
 
 // layer lighting
+bool capsWordStatus = false;
+
+void updateStatus(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
+        const uint8_t* in_data_ptr = (const uint8_t*)in_data;
+        capsWordStatus = *in_data_ptr;
+}
+
 void capsLock(void) {
         uint8_t indexes[] = {58, 59, 60, 61, 24, 25, 26, 27};
         size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
 
-        if (host_keyboard_led_state().caps_lock | is_caps_word_on()) {
+        if (host_keyboard_led_state().caps_lock) {
                 for (size_t i = 0; i < numIndexes; i++) {
                         rgb_matrix_set_color(indexes[i], 0, 24, 0);
+                }
+        } else if (is_caps_word_on() | capsWordStatus) {
+                for (size_t i = 0; i < numIndexes; i++) {
+                        rgb_matrix_set_color(indexes[i], 24, 21, 0);
                 }
         }
 }
@@ -146,6 +158,19 @@ void capsLock(void) {
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         capsLock();
         return true;
+}
+
+void housekeeping_task_user(void) {
+        if(is_keyboard_master()) {
+                static uint32_t last_sync = 0;
+                if (timer_elapsed32(last_sync) > 50) {
+                        bool active = is_caps_word_on();
+                        if(transaction_rpc_send(CAPS_WORD_SYNC, sizeof(active), &active)) {
+                                last_sync = timer_read32();
+                        }
+
+                }
+        }
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -200,6 +225,7 @@ void keyboard_post_init_user(void) {
         rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
         rgb_matrix_sethsv_noeeprom(210, 255, 200);
         rgb_matrix_set_speed(31);
+        transaction_register_rpc(CAPS_WORD_SYNC, updateStatus);
 }
 
 // combo
