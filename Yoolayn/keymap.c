@@ -6,6 +6,7 @@
 #define _MUSIC 3
 #define _GAMING 4
 #define _GAMING2 5
+#define _FPS 6
 
 enum custom_keycodes {
         QWERTY = SAFE_RANGE,
@@ -77,9 +78,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_QUOT,
 // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-    KC_LALT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, SC_RSPC,
+    KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, SC_RSPC,
 // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-    KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   OSL(5),  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+    KC_LALT,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   OSL(5),  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
 // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                         KC_LCTL,  KC_SPC,  KC_TAB,   KC_ENT, KC_BSPC, KC_LGUI
 //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -95,6 +96,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   TO(4),    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
 // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                          TO(4),   TO(4),   TO(4),    TO(4),   TO(4),   TO(4)
+//                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
+        ),
+        [_FPS] = LAYOUT(
+// ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
+     KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_GRV,
+// ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+     KC_TAB,   KC_T,    KC_Q,    KC_W,    KC_E,    KC_R,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_QUOT,
+// ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+    KC_LSFT,   KC_G,    KC_A,    KC_S,    KC_D,    KC_F,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, SC_RSPC,
+// ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+    KC_LALT,   KC_B,    KC_Z,    KC_X,    KC_C,    KC_V,   OSL(5),  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+// └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
+                                         KC_TAB, KC_LCTL,  KC_SPC,   KC_ENT, KC_BSPC, KC_LGUI
 //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
         )
 };
@@ -155,6 +169,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
                 case 4:
                         rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
                         break;
+                case 6:
+                        rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
+                        break;
         }
         return state;
 }
@@ -173,6 +190,8 @@ void leader_end_user(void) {
                 layer_move(_GAMING);
         } else if (leader_sequence_one_key(KC_Q)) {
                 layer_move(_QWERTY);
+        } else if (leader_sequence_three_keys(KC_F, KC_P, KC_S)) {
+                layer_move(_FPS);
         }
 }
 
@@ -188,18 +207,21 @@ void keyboard_post_init_user(void) {
 
 enum combo_events {
         GAMING_ESC,
+        FPS_ESC,
         GAMING_X,
         GAMING_SUPER,
         ALL_CAPSLOCK,
 };
 
 const uint16_t PROGMEM gaming_esc[] = {KC_GRV, KC_Q, COMBO_END};
+const uint16_t PROGMEM fps_esc[] = {KC_GRV, KC_T, COMBO_END};
 const uint16_t PROGMEM gaming_x[] = {KC_Z, KC_C, COMBO_END};
 const uint16_t PROGMEM gaming_super[] = {KC_LALT, KC_SPC, COMBO_END};
 const uint16_t PROGMEM all_capslock[] = {KC_LSFT, CW_TOGG, COMBO_END};
 
 combo_t key_combos[] = {
         [GAMING_ESC] = COMBO_ACTION(gaming_esc),
+        [FPS_ESC] = COMBO_ACTION(fps_esc),
         [GAMING_X] = COMBO_ACTION(gaming_x),
         [GAMING_SUPER] = COMBO_ACTION(gaming_super),
         [ALL_CAPSLOCK] = COMBO_ACTION(all_capslock),
@@ -209,6 +231,11 @@ combo_t key_combos[] = {
 void process_combo_event(uint16_t combo_index, bool pressed) {
         switch (combo_index) {
                 case GAMING_ESC:
+                        if(pressed) {
+                                tap_code16(KC_ESC);
+                        }
+                        break;
+                case FPS_ESC:
                         if(pressed) {
                                 tap_code16(KC_ESC);
                         }
@@ -236,13 +263,13 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
         switch (combo_index) {
                 case GAMING_ESC:
-                        return layer_state_is(4);
+                        return layer_state_is(4) || layer_state_is(6);
                         break;
                 case GAMING_X:
-                        return layer_state_is(4);
+                        return layer_state_is(4) || layer_state_is(6);
                         break;
                 case GAMING_SUPER:
-                        return layer_state_is(4);
+                        return layer_state_is(4) || layer_state_is(6);
                         break;
         }
         return true;
