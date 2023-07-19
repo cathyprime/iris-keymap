@@ -204,12 +204,17 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
+layer_state_t layer_pre_leader;
+
 // leader
 void leader_start_user(void) {
+    layer_pre_leader = get_highest_layer(layer_state);
     layer_move(0);
 }
 
 void leader_end_user(void) {
+    bool switch_back = false;
+
     if (leader_sequence_one_key(KC_V)) {
         layer_move(_VIM);
     } else if (leader_sequence_one_key(KC_M)) {
@@ -220,6 +225,16 @@ void leader_end_user(void) {
         layer_move(_QWERTY);
     } else if (leader_sequence_three_keys(KC_F, KC_P, KC_S)) {
         layer_move(_FPS);
+    } else if (leader_sequence_one_key(KC_J)) {
+        switch_back = true;
+        tap_code16(KC_PMNS);
+    } else if (leader_sequence_one_key(KC_K)) {
+        switch_back = true;
+        tap_code16(KC_PAST);
+    }
+
+    if(switch_back) {
+        layer_move(layer_pre_leader);
     }
 }
 
