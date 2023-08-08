@@ -40,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT, KC_LBRC, KC_RBRC,   KC_BSPC,    KC_TAB,  KC_NO,                     KC_QUOT, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_RSFT,
     // ├────────┼────────┼────────┼────────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_TRNS,  KC_NO,  KC_NO,LSFT(KC_LBRC),LSFT(KC_RBRC),KC_NO,QK_LEAD,  QK_LEAD, KC_BSPC, KC_DEL,  KC_LEFT, KC_DOWN,  KC_UP,  KC_RIGHT,
+        KC_TRNS,  KC_NO,  KC_NO,LSFT(KC_LBRC),LSFT(KC_RBRC),KC_NO,QK_LEAD,  QK_LEAD,  KC_DEL,  KC_NO,  KC_LEFT, KC_DOWN,  KC_UP,  KC_RIGHT,
     // └────────┴────────┴────────┴────────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                                 KC_TRNS, KC_TRNS, KC_TRNS,  KC_ESC,  KC_LALT, KC_LGUI
     //                                         └────────┴────────┴────────┘└────────┴────────┴────────┘
