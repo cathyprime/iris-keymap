@@ -26,7 +26,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, CW_TOGG,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,CTL_T(KC_Z),KC_X,KC_C,RALT_T(KC_V),    KC_B,  KC_ESC,   QK_LEAD,   KC_N,RALT_T(KC_M),KC_COMM,KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LCTL,CTL_T(KC_Z),KC_X,  KC_C, RALT_T(KC_V), KC_B,  KC_TAB,   QK_LEAD,   KC_N,RALT_T(KC_M),KC_COMM,KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             KC_LGUI,  MO(1),  KC_SPC,    KC_ENT, KC_LSFT,  KC_LALT
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -40,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,C(KC_BSPC),KC_NO,  KC_BSPC,  KC_TAB,  KC_NO,                     KC_LGUI, KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_CAPS,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_ESC,   QK_LEAD,  KC_DEL,S(KC_GRV), KC_LEFT, KC_DOWN,  KC_UP,  KC_RIGHT,
+        KC_LCTL,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_TAB,   QK_LEAD,  KC_DEL,S(KC_GRV), KC_LEFT, KC_DOWN,  KC_UP,  KC_RIGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             KC_LGUI, KC_TRNS, KC_TRNS,   KC_ESC, KC_LSFT,  KC_LALT
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -54,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┤                  ├──────────┼────────┼────────┼────────┼──────────┼────────┤
         KC_LSFT, KC_HOME,     KC_NO,     KC_PGDN,  KC_NO,      KC_NO,                        KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT,  KC_NO,   KC_RSFT,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┼────────┐┌────────┼──────────┼────────┼────────┼────────┼──────────┼────────┤
-         KC_NO,   KC_NO,      KC_DEL,     KC_NO,  KC_LSFT, LCTL(KC_LEFT), KC_ESC, QK_LEAD,   KC_DEL,  KC_BSPC,  KC_NO,   KC_NO,    KC_NO,    KC_NO,
+         KC_NO,   KC_NO,      KC_DEL,     KC_NO,  KC_LSFT, LCTL(KC_LEFT), KC_TAB, QK_LEAD,   KC_DEL,  KC_BSPC,  KC_NO,   KC_NO,    KC_NO,    KC_NO,
     // └────────┴────────┴──────────────┴────────┼────────┼─────────────┼────────┤├────────┼──────────┼────────┼────────┴────────┴──────────┴────────┘
                                                    KC_NO,     KC_TRNS,    KC_NO,    KC_NO,   KC_TRNS,   KC_NO
     //                                           └────────┴─────────────┴────────┘└────────┴──────────┴────────┘
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
          KC_NO,  KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,  KC_NO,                      KC_NO,  KC_PMNS, KC_PAST,  KC_NO,   KC_NO,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_MUTE,  KC_NO,  KC_MPLY,  KC_NO,   KC_NO,   KC_NO,   KC_ESC,  QK_LEAD,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_MUTE,  KC_NO,  KC_MPLY,  KC_NO,   KC_NO,   KC_NO,   KC_TAB,  QK_LEAD,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                              KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
