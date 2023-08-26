@@ -132,6 +132,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 *             |--|62|--|    |--|28|--|
 */
 
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case CTL_T(KC_Z):
+            return 200;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
 // layer lighting
 bool capsWordStatus = false;
 
