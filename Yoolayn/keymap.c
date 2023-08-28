@@ -26,9 +26,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, CW_TOGG,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,CTL_T(KC_Z),KC_X,  KC_C, RALT_T(KC_V), KC_B,  KC_TAB,   QK_LEAD,   KC_N,RALT_T(KC_M),KC_COMM,KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,RALT_T(KC_V),KC_B,   KC_BSPC, QK_LEAD,  KC_N,RALT_T(KC_M),KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_LGUI,  MO(1),  KC_SPC,    KC_ENT, KC_LSFT,  KC_LALT
+                                            KC_LGUI,  MO(1),   KC_SPC,   KC_ENT, KC_LSFT, KC_LALT
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
 
@@ -36,11 +36,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
         KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_NO,    KC_GRV, KC_HOME,  KC_END,  KC_NO,   KC_NO,                   S(KC_BSLS),S(KC_9),S(KC_0),S(KC_LBRC),S(KC_RBRC),S(KC_QUOT),
+        KC_NO,   KC_HOME,  KC_NO,   KC_END,  KC_NO,   KC_NO,                   S(KC_BSLS),S(KC_0), S(KC_4), S(KC_1),  KC_NO,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,C(KC_BSPC),KC_NO,  KC_BSPC,  KC_TAB,  KC_NO,                     KC_LGUI, KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_CAPS,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_TAB,   QK_LEAD,  KC_DEL,S(KC_GRV), KC_LEFT, KC_DOWN,  KC_UP,  KC_RIGHT,
+        KC_LCTL,  KC_NO,  S(KC_9), S(KC_0),  KC_NO,   KC_NO,   KC_TAB,  QK_LEAD, KC_DEL,S(KC_GRV), KC_LEFT, KC_DOWN,  KC_UP,  KC_RIGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             KC_LGUI, KC_TRNS, KC_TRNS,   KC_ESC, KC_LSFT,  KC_LALT
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -54,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┤                  ├──────────┼────────┼────────┼────────┼──────────┼────────┤
         KC_LSFT, KC_HOME,     KC_NO,     KC_PGDN,  KC_NO,      KC_NO,                        KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT,  KC_NO,   KC_RSFT,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┼────────┐┌────────┼──────────┼────────┼────────┼────────┼──────────┼────────┤
-         KC_NO,   KC_NO,      KC_DEL,     KC_NO,  KC_LSFT, LCTL(KC_LEFT), KC_TAB, QK_LEAD,   KC_DEL,  KC_BSPC,  KC_NO,   KC_NO,    KC_NO,    KC_NO,
+         KC_NO,   KC_NO,      KC_DEL,     KC_NO,  KC_LSFT, LCTL(KC_LEFT), KC_TAB, QK_LEAD,   KC_DEL,   KC_BSPC,  KC_NO,   KC_NO,    KC_NO,    KC_NO,
     // └────────┴────────┴──────────────┴────────┼────────┼─────────────┼────────┤├────────┼──────────┼────────┼────────┴────────┴──────────┴────────┘
                                                    KC_NO,     KC_TRNS,    KC_NO,    KC_NO,   KC_TRNS,   KC_NO
     //                                           └────────┴─────────────┴────────┘└────────┴──────────┴────────┘
@@ -134,8 +134,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case CTL_T(KC_Z):
-            return 200;
         default:
             return TAPPING_TERM;
     }
