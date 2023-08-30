@@ -154,28 +154,52 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 bool leader_mode = false;
 bool capsWordStatus = false;
 
-void updateStatus(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
+void updateCaps(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
     const uint8_t* in_data_ptr = (const uint8_t*)in_data;
     capsWordStatus = *in_data_ptr;
 }
 
-void capsLock(void) {
-    uint8_t indexes[] = {58, 59, 60, 61, 24, 25, 26, 27};
+void updateLeader(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
+    const uint8_t* in_data_ptr = (const uint8_t*)in_data;
+    leader_mode = *in_data_ptr;
+}
+
+bool is_leader_active(void) {
+    return leader_mode;
+}
+
+void clusterColor(void) {
+                      //{0   1   2   3   4   5   6   7}
+    uint8_t indexes[] = {24, 25, 26, 27, 61, 60, 59, 58};
     size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
 
-    if (host_keyboard_led_state().caps_lock) {
+    if (is_leader_active() | leader_mode) {
         for (size_t i = 0; i < numIndexes; i++) {
-            rgb_matrix_set_color(indexes[i], 0, 24, 0);
+            if (i >= 0 && i <= 3) {
+                rgb_matrix_set_color(indexes[i], 0, 0, 25);
+            } else {
+                rgb_matrix_set_color(indexes[i], 25, 8, 0);
+            }
         }
     } else if (is_caps_word_on() | capsWordStatus) {
+        if (host_keyboard_led_state().caps_lock) {
+            for (size_t i = 0; i < numIndexes; i++) {
+                rgb_matrix_set_color(indexes[i], 22, 2, 6);
+            }
+        } else {
+            for (size_t i = 0; i < numIndexes; i++) {
+                rgb_matrix_set_color(indexes[i], 24, 21, 0);
+            }
+        }
+    } else if (host_keyboard_led_state().caps_lock) {
         for (size_t i = 0; i < numIndexes; i++) {
-            rgb_matrix_set_color(indexes[i], 24, 21, 0);
+            rgb_matrix_set_color(indexes[i], 0, 24, 0);
         }
     }
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    capsLock();
+    clusterColor();
     return true;
 }
 
@@ -183,15 +207,11 @@ void housekeeping_task_user(void) {
     if (is_keyboard_master()) {
         static uint32_t last_sync = 0;
         if(timer_elapsed32(last_sync) > 100) {
-            bool active = is_caps_word_on();
-            transaction_rpc_send(CAPS_WORD_SYNC, sizeof(active), &active);
+            bool active_caps = is_caps_word_on();
+            bool active_leader = is_leader_active();
+            transaction_rpc_send(CAPS_WORD_SYNC, sizeof(active_caps), &active_caps);
+            transaction_rpc_send(LEADER_SYNC, sizeof(active_leader), &active_leader);
         }
-    }
-}
-
-void caps_word_set_user(bool active) {
-    if (is_keyboard_master()) {
-        transaction_rpc_send(CAPS_WORD_SYNC, sizeof(active), &active);
     }
 }
 
@@ -199,7 +219,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
         case _QWERTY:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
-            rgb_matrix_sethsv_noeeprom(210, 255, 200);
+            rgb_matrix_sethsv_noeeprom(198, 255, 200);
             break;
         case _SIGNS:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
@@ -222,8 +242,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
     return state;
 }
-
-layer_state_t layer_pre_leader;
 
 // leader
 void leader_start_user(void) {
@@ -264,9 +282,10 @@ void leader_end_user(void) {
 void keyboard_post_init_user(void) {
     rgb_matrix_enable_noeeprom();
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
-    rgb_matrix_sethsv_noeeprom(210, 255, 200);
+    rgb_matrix_sethsv_noeeprom(198, 255, 200);
     rgb_matrix_set_speed(31);
-    transaction_register_rpc(CAPS_WORD_SYNC, updateStatus);
+    transaction_register_rpc(CAPS_WORD_SYNC, updateCaps);
+    transaction_register_rpc(LEADER_SYNC, updateLeader);
 }
 
 // combo
