@@ -150,25 +150,51 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+void gamod_colors(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
+    if (IS_LAYER_ON(_GAMOD)) {
+        if (is_keyboard_master()) {
+            uint8_t indexes[] = {
+                34 , 35 , 36 , 37 , 38 , 39 , 40 , 41 ,
+                42 , 43 , 44 , 45 , 46 , 47 , 48 , 49 ,
+                50 , 51 , 52 , 53 , 54 , 55 , 56 , 57 ,
+                58 , 59 , 60 , 61
+            };
+            size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
+            for (size_t i = 0; i < numIndexes; i++) {
+                rgb_matrix_set_color(indexes[i], 25, 8, 0);
+            };
+        } else {
+            uint8_t indexes[] = {
+                0  , 1  , 2  , 3  , 4  , 5  , 6  , 7  ,
+                8  , 9  , 10 , 11 , 12 , 13 , 14 , 15 ,
+                16 , 17 , 18 , 19 , 20 , 21 , 22 , 23 ,
+                24 , 25 , 26 , 27
+            };
+            size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
+            for (size_t i = 0; i < numIndexes; i++) {
+                rgb_matrix_set_color(indexes[i], 0, 0, 20);
+            };
+        };
+    };
+}
+
 // layer lighting
 bool leader_mode = false;
 bool capsWordStatus = false;
 
-void updateCaps(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
-    const uint8_t* in_data_ptr = (const uint8_t*)in_data;
-    capsWordStatus = *in_data_ptr;
+void update_caps(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
+    capsWordStatus = *((const uint8_t*)in_data);
 }
 
-void updateLeader(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
-    const uint8_t* in_data_ptr = (const uint8_t*)in_data;
-    leader_mode = *in_data_ptr;
+void update_leader(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
+    leader_mode = *((const uint8_t*)in_data);
 }
 
 bool is_leader_active(void) {
     return leader_mode;
 }
 
-void clusterColor(void) {
+void cluster_color(void) {
                       //{0   1   2   3   4   5   6   7}
     uint8_t indexes[] = {24, 25, 26, 27, 61, 60, 59, 58};
     size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
@@ -199,7 +225,7 @@ void clusterColor(void) {
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    clusterColor();
+    cluster_color();
     return true;
 }
 
@@ -211,6 +237,7 @@ void housekeeping_task_user(void) {
             bool active_leader = is_leader_active();
             transaction_rpc_send(CAPS_WORD_SYNC, sizeof(active_caps), &active_caps);
             transaction_rpc_send(LEADER_SYNC, sizeof(active_leader), &active_leader);
+            transaction_rpc_send(GAMOD_SYNC, sizeof(active_leader), &active_leader);
         }
     }
 }
@@ -235,6 +262,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
         case _GAMING:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_PIXEL_RAIN);
+            break;
+        case _GAMOD:
+            gamod_colors(0, NULL, 0, NULL);
+            transaction_rpc_send(GAMOD_SYNC, 0, NULL);
             break;
         case _FPS:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_PIXEL_RAIN);
@@ -284,8 +315,9 @@ void keyboard_post_init_user(void) {
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
     rgb_matrix_sethsv_noeeprom(198, 255, 200);
     rgb_matrix_set_speed(31);
-    transaction_register_rpc(CAPS_WORD_SYNC, updateCaps);
-    transaction_register_rpc(LEADER_SYNC, updateLeader);
+    transaction_register_rpc(CAPS_WORD_SYNC, update_caps);
+    transaction_register_rpc(LEADER_SYNC, update_leader);
+    transaction_register_rpc(GAMOD_SYNC, gamod_colors);
 }
 
 // combo
