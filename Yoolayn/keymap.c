@@ -6,8 +6,8 @@
 #define _VIM 2
 #define _MUSIC 3
 #define _GAMING 4
-#define _GAMING2 5
-#define _FPS 6
+#define _FPS 5
+#define _GAMOD 6
 
 enum custom_keycodes {
     QWERTY = SAFE_RANGE,
@@ -81,22 +81,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, SC_RSPC,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   OSL(5),  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,OSL(_GAMOD),QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             KC_LALT,  KC_SPC,  KC_TAB,   KC_ENT, KC_BSPC, KC_LGUI
-    //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
-    ),
-    [_GAMING2] = LAYOUT(
-    // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
-         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-    // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-         KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,                     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-    // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-    // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   TO(4),    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-    // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                             TO(4),  KC_LCTL, KC_LCTL,   TO(4),   TO(4),   TO(4)
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_FPS] = LAYOUT(
@@ -107,9 +94,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_G,    KC_A,    KC_S,    KC_D,    KC_F,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, SC_RSPC,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LALT,   KC_B,    KC_Z,    KC_X,    KC_C,    KC_V,   OSL(5),  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LALT,   KC_B,    KC_Z,    KC_X,    KC_C,    KC_V,OSL(_GAMOD),QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                              KC_TAB, KC_LCTL,  KC_SPC,   KC_ENT, KC_BSPC, KC_LGUI
+    //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
+    ),
+    [_GAMOD] = LAYOUT(
+    // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
+         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+         KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,                     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+        KC_LSFT,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_TRNS,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
+                                            KC_TRNS, KC_LCTL, KC_LCTL,  KC_TRNS, KC_TRNS, KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     )
 };
@@ -185,27 +185,27 @@ void caps_word_set_user(bool active) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
-        case 0:
+        case _QWERTY:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
             rgb_matrix_sethsv_noeeprom(210, 255, 200);
             break;
-        case 1:
+        case _SIGNS:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
             rgb_matrix_sethsv_noeeprom(255, 255, 255);
             break;
-        case 2:
+        case _VIM:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
             rgb_matrix_sethsv_noeeprom(170, 255, 255);
             break;
-        case 3:
+        case _MUSIC:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
             rgb_matrix_sethsv_noeeprom(120, 175, 255);
             break;
-        case 4:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
+        case _GAMING:
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_PIXEL_RAIN);
             break;
-        case 6:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
+        case _FPS:
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_PIXEL_RAIN);
             break;
     }
     return state;
