@@ -23,7 +23,8 @@ enum {
     TD_COL,
     TD_LBR,
     TD_RBR,
-    TD_GUI
+    TD_GUI,
+    TD_MOL,
 };
 
 tap_dance_action_t tap_dance_actions[] = {
@@ -33,6 +34,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_LBR] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, S(KC_9)),
     [TD_RBR] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, S(KC_0)),
     [TD_GUI] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, KC_LCTL),
+    [TD_MOL] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_ENT, _VIM),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -47,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_BSPC,  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                           TD(TD_GUI), MO(1),  KC_SPC,  KC_ENT,TD(TD_SFT),TD(TD_ALT)
+                                       TD(TD_GUI), MO(_SIGNS), KC_SPC, TD(TD_MOL), TD(TD_SFT), TD(TD_ALT)
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_SIGNS] = LAYOUT(
@@ -67,13 +69,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ┌────────┬────────┬──────────────┬────────┬────────┬─────────────┐                  ┌──────────┬────────┬────────┬────────┬──────────┬────────┐
          KC_NO,   KC_NO,      KC_NO,      KC_END,  KC_NO,      KC_NO,                        KC_HOME,   KC_NO,   KC_NO,   KC_NO,   KC_HOME,   KC_NO,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┤                  ├──────────┼────────┼────────┼────────┼──────────┼────────┤
-         KC_NO,   KC_NO,  LCTL(KC_RGHT),  KC_END,  KC_NO,      KC_NO,                      LCTL(KC_C), KC_PGUP,  TO(0),   KC_NO, LCTL(KC_V), KC_PPLS,
+         KC_NO,   KC_NO,  LCTL(KC_RGHT),  KC_END,  KC_NO,      KC_NO,                     LCTL(KC_C), KC_PGUP,TO(_QWERTY),KC_NO, LCTL(KC_V), KC_PPLS,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┤                  ├──────────┼────────┼────────┼────────┼──────────┼────────┤
         KC_LSFT, KC_HOME,     KC_NO,     KC_PGDN,  KC_NO,      KC_NO,                        KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT,  KC_NO,   KC_RSFT,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┼────────┐┌────────┼──────────┼────────┼────────┼────────┼──────────┼────────┤
          KC_NO,   KC_NO,      KC_DEL,     KC_NO,  KC_LSFT, LCTL(KC_LEFT), KC_TAB,  QK_LEAD,  KC_DEL,   KC_BSPC,  KC_NO,   KC_NO,    KC_NO,    KC_NO,
     // └────────┴────────┴──────────────┴────────┼────────┼─────────────┼────────┤├────────┼──────────┼────────┼────────┴────────┴──────────┴────────┘
-                                                   KC_NO,     KC_TRNS,    KC_NO,    KC_NO,   KC_TRNS,   KC_NO
+                                                   KC_NO,     KC_TRNS,    KC_NO,    KC_ENT,  KC_TRNS,   KC_NO
     //                                           └────────┴─────────────┴────────┘└────────┴──────────┴────────┘
     ),
     [_MUSIC] = LAYOUT(
@@ -138,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   KC_BSPC, QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_LGUI,  MO(1),   KC_SPC,   KC_ENT, KC_LSFT, KC_LALT
+                                            KC_LGUI,  KC_NO,   KC_SPC,   KC_ENT, KC_LSFT, KC_LALT
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     )
 };
@@ -163,6 +165,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case TD(TD_MOL):
+            return 140;
         case TD(TD_COL):
             return 130;
         case TD(TD_LBR):
