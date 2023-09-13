@@ -161,6 +161,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case TD(TD_MOL):
             return 140;
+        case TD(TD_ALT):
+            return 200;
         default:
             return TAPPING_TERM;
     }
