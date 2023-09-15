@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, CW_TOGG,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  KC_BSPC,  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  QK_LEAD,  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                        TD(TD_GUI), MO(_SIGNS), KC_SPC, TD(TD_MOL), TD(TD_SFT), TD(TD_ALT)
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -352,6 +352,8 @@ enum combo_events {
     GAMING_X,
     GAMING_SUPER,
     ALL_CAPSLOCK,
+    L_BRACE,
+    R_BRACE,
 };
 
 const uint16_t PROGMEM gaming_esc[] = {KC_GRV, KC_Q, COMBO_END};
@@ -359,6 +361,8 @@ const uint16_t PROGMEM fps_esc[] = {KC_GRV, KC_T, COMBO_END};
 const uint16_t PROGMEM gaming_x[] = {KC_Z, KC_C, COMBO_END};
 const uint16_t PROGMEM gaming_super[] = {KC_LALT, KC_SPC, COMBO_END};
 const uint16_t PROGMEM all_capslock[] = {KC_LSFT, CW_TOGG, COMBO_END};
+const uint16_t PROGMEM l_brace[] = {KC_D, KC_F, COMBO_END};
+const uint16_t PROGMEM r_brace[] = {KC_J, KC_K, COMBO_END};
 
 combo_t key_combos[] = {
     [GAMING_ESC] = COMBO_ACTION(gaming_esc),
@@ -366,6 +370,19 @@ combo_t key_combos[] = {
     [GAMING_X] = COMBO_ACTION(gaming_x),
     [GAMING_SUPER] = COMBO_ACTION(gaming_super),
     [ALL_CAPSLOCK] = COMBO_ACTION(all_capslock),
+    [L_BRACE] = COMBO(l_brace, KC_LBRC),
+    [R_BRACE] = COMBO(r_brace, KC_RBRC),
+};
+
+uint16_t get_combo_term(uint16_t index, combo_t *combo) {
+    switch(index) {
+        case L_BRACE:
+            return 20;
+        case R_BRACE:
+            return 20;
+        default:
+            return COMBO_TERM;
+    }
 };
 
 //results
