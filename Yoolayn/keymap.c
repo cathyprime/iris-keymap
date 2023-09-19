@@ -22,12 +22,14 @@ enum {
     TD_SFT,
     TD_GUI,
     TD_MOL,
+    TD_ENT,
 };
 
 tap_dance_action_t tap_dance_actions[] = {
     [TD_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_LGUI),
     [TD_SFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_RALT),
     [TD_GUI] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, KC_LCTL),
+    [TD_ENT] = ACTION_TAP_DANCE_DOUBLE(KC_ENT, KC_LCTL),
     [TD_MOL] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_ENT, _VIM),
 };
 
@@ -43,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  QK_LEAD,  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                       TD(TD_GUI), MO(_SIGNS), KC_SPC, TD(TD_MOL), TD(TD_SFT), TD(TD_ALT)
+                                       TD(TD_GUI), MO(_SIGNS), KC_SPC, TD(TD_ENT), TD(TD_SFT), TD(TD_ALT)
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_SIGNS] = LAYOUT(
@@ -87,13 +89,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_GAMING] = LAYOUT(
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
-         KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_GRV,
+         KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_MINS,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
          KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_PPLS,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,   KC_UP,  SC_RSPC,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,OSL(_GAMOD),QK_LEAD,   KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_RGHT,
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,OSL(_GAMOD),QK_LEAD,   KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_EQL,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             KC_LALT,  KC_SPC,  KC_TAB,   KC_ENT, KC_BSPC, KC_LGUI
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
