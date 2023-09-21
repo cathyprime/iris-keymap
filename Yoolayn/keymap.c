@@ -37,15 +37,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QWERTY] = LAYOUT(
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
-        KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_BSPC,
+        KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  QK_LEAD,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_QUOT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, CW_TOGG,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  QK_LEAD,  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  CM_TOGG,  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                       TD(TD_GUI), MO(_SIGNS), KC_SPC, TD(TD_ENT), TD(TD_SFT), TD(TD_ALT)
+                                       TD(TD_GUI), MO(_SIGNS), KC_SPC,  KC_ENT, TD(TD_SFT), TD(TD_ALT)
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_SIGNS] = LAYOUT(
@@ -213,7 +213,13 @@ void update_leader(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, v
 bool is_leader_active(void) {
     return leader_mode;
 }
-
+/*
+* |00|01|02|03|04|05|          |39|38|37|36|35|34|
+* |11|10|09|08|07|06|          |40|41|42|43|44|45|
+* |12|13|14|15|16|17|          |51|50|49|48|47|46|
+* |23|22|21|20|19|18|27|    |61|52|53|54|55|56|57|
+*             |24|25|26|    |60|59|58|
+*/
 void cluster_color(void) {
                       //{0   1   2   3   4   5   6   7}
     uint8_t indexes[] = {24, 25, 26, 27, 61, 60, 59, 58};
@@ -226,6 +232,12 @@ void cluster_color(void) {
             } else {
                 rgb_matrix_set_color(indexes[i], 25, 8, 0);
             }
+        }
+    } else if (!is_combo_enabled()) {
+        uint8_t combo[] = {58, 59, 60, 61};
+        uint8_t numCombo = sizeof(combo) / sizeof(combo[0]);
+        for (size_t i = 0; i < numCombo; i++) {
+            rgb_matrix_set_color(combo[i], 25, 0, 0);
         }
     } else if (is_caps_word_on() | capsWordStatus) {
         if (host_keyboard_led_state().caps_lock) {
@@ -356,6 +368,11 @@ enum combo_events {
     ALL_CAPSLOCK,
     L_BRACE,
     R_BRACE,
+    L_PAREN,
+    R_PAREN,
+    L_CTRL,
+    R_CTRL,
+    ALL_ALT,
 };
 
 const uint16_t PROGMEM gaming_esc[] = {KC_GRV, KC_Q, COMBO_END};
@@ -365,6 +382,11 @@ const uint16_t PROGMEM gaming_super[] = {KC_LALT, KC_SPC, COMBO_END};
 const uint16_t PROGMEM all_capslock[] = {KC_LSFT, CW_TOGG, COMBO_END};
 const uint16_t PROGMEM l_brace[] = {KC_D, KC_F, COMBO_END};
 const uint16_t PROGMEM r_brace[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM l_paren[] = {KC_E, KC_R, COMBO_END};
+const uint16_t PROGMEM r_paren[] = {KC_U, KC_I, COMBO_END};
+const uint16_t PROGMEM l_ctrl[] = {KC_S, KC_D, COMBO_END};
+const uint16_t PROGMEM r_ctrl[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM all_alt[] = {KC_SPC, KC_ENT, COMBO_END};
 
 combo_t key_combos[] = {
     [GAMING_ESC] = COMBO_ACTION(gaming_esc),
@@ -374,6 +396,11 @@ combo_t key_combos[] = {
     [ALL_CAPSLOCK] = COMBO_ACTION(all_capslock),
     [L_BRACE] = COMBO(l_brace, KC_LBRC),
     [R_BRACE] = COMBO(r_brace, KC_RBRC),
+    [L_PAREN] = COMBO(l_paren, S(KC_9)),
+    [R_PAREN] = COMBO(r_paren, S(KC_0)),
+    [ALL_ALT] = COMBO(all_alt, KC_LALT),
+    [L_CTRL] = COMBO(l_ctrl, KC_LCTL),
+    [R_CTRL] = COMBO(r_ctrl, KC_RCTL),
 };
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
@@ -381,6 +408,16 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
         case L_BRACE:
             return 20;
         case R_BRACE:
+            return 20;
+        case ALL_ALT:
+            return 20;
+        case L_CTRL:
+            return 20;
+        case R_CTRL:
+            return 20;
+        case L_PAREN:
+            return 20;
+        case R_PAREN:
             return 20;
         default:
             return COMBO_TERM;
