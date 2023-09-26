@@ -2,13 +2,38 @@
 #include "transactions.h"
 
 #define _QWERTY 0
-#define _SIGNS 1
-#define _VIM 2
-#define _MUSIC 3
-#define _GAMING 4
-#define _FPS 5
-#define _GAMOD 6
-#define _LEADER 7
+#define _COLEMAK 1
+#define _SIGNS 2
+#define _VIM 3
+#define _MUSIC 4
+#define _GAMING 5
+#define _FPS 6
+#define _GAMOD 7
+#define _LEADER 8
+
+// colemak homerow
+#define CHRA LALT_T(KC_A)
+#define CHRR LGUI_T(KC_R)
+#define CHRS LSFT_T(KC_S)
+#define CHRT LCTL_T(KC_T)
+
+#define CHRO LALT_T(KC_O)
+#define CHRI LGUI_T(KC_I)
+#define CHRE RSFT_T(KC_E)
+#define CHRN RCTL_T(KC_N)
+
+// qwerty homerow
+#define QHRA LALT_T(KC_A)
+#define QHRS LGUI_T(KC_S)
+#define QHRD LSFT_T(KC_D)
+#define QHRF LCTL_T(KC_F)
+
+#define QHRSCLN LALT_T(KC_SCLN)
+#define QHRL LGUI_T(KC_L)
+#define QHRK RSFT_T(KC_K)
+#define QHRJ RCTL_T(KC_J)
+
+#define TAB_SIG LT(_SIGNS, KC_TAB)
 
 enum custom_keycodes {
     QWERTY = SAFE_RANGE,
@@ -37,15 +62,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QWERTY] = LAYOUT(
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
-        KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  QK_LEAD,
+        KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  CM_TOGG,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_QUOT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, CW_TOGG,
+        KC_LSFT,   QHRA,    QHRS,    QHRD,    QHRF,    KC_G,                       KC_H,    QHRJ,    QHRK,    QHRL,  QHRSCLN, KC_RALT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  CM_TOGG,  QK_LEAD,   KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  TO(_VIM),  QK_LEAD,  KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                       TD(TD_GUI), MO(_SIGNS), KC_SPC,  KC_ENT, TD(TD_SFT), TD(TD_ALT)
+                                             KC_ESC, TAB_SIG,  KC_SPC,   KC_ENT, KC_BSPC,  KC_DEL
+    //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
+    ),
+    [_COLEMAK] = LAYOUT(
+    // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
+        KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  CM_TOGG,
+    // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+        KC_TAB,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                       KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_QUOT,
+    // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
+        KC_LSFT,   CHRA,    CHRR,    CHRS,    CHRT,    KC_G,                       KC_M,    CHRN,    CHRE,    CHRI,    CHRO,  KC_RALT,
+    // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,  TO(_VIM),  QK_LEAD,  KC_K,    KC_H,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+    // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
+                                            KC_ESC,  TAB_SIG,  KC_SPC,   KC_ENT,  KC_BSPC,  KC_DEL
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_SIGNS] = LAYOUT(
@@ -54,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_NO,   KC_HOME,  KC_NO,   KC_END,  KC_NO,   KC_NO,                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT,C(KC_BSPC),S(KC_9),KC_BSPC, S(KC_0),  KC_NO,                     KC_LBRC,  KC_MINS, KC_EQL,  KC_RBRC, KC_NO,  KC_CAPS,
+        KC_LSFT,C(KC_BSPC),S(KC_9),KC_BSPC, S(KC_0),  KC_NO,                     KC_LBRC,  KC_MINS, KC_EQL,  KC_RBRC, KC_CAPS, CW_TOGG,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TAB,  QK_LEAD,  KC_DEL,  KC_GRV, KC_LEFT, KC_DOWN,  KC_UP,  KC_RIGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
@@ -279,6 +317,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _QWERTY:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
             rgb_matrix_sethsv_noeeprom(198, 255, 200);
+        case _COLEMAK:
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
+            rgb_matrix_sethsv_noeeprom(198, 255, 200);
             break;
         case _SIGNS:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE);
@@ -337,6 +378,9 @@ void leader_end_user(void) {
     } else if (leader_sequence_two_keys(KC_L, KC_Q)) {
         layer_move(_QWERTY);
 
+    } else if (leader_sequence_two_keys(KC_L, KC_C)) {
+        layer_move(_COLEMAK);
+
     } else if (leader_sequence_two_keys(KC_L, KC_F)) {
         layer_move(_FPS);
 
@@ -365,60 +409,54 @@ enum combo_events {
     FPS_ESC,
     GAMING_X,
     GAMING_SUPER,
-    ALL_CAPSLOCK,
     L_BRACE,
     R_BRACE,
-    L_PAREN,
-    R_PAREN,
-    L_CTRL,
-    R_CTRL,
-    ALL_ALT,
+    L_BRACEQ,
+    R_BRACEQ,
+    L_BRACEC,
+    R_BRACEC,
 };
 
 const uint16_t PROGMEM gaming_esc[] = {KC_GRV, KC_Q, COMBO_END};
 const uint16_t PROGMEM fps_esc[] = {KC_GRV, KC_T, COMBO_END};
 const uint16_t PROGMEM gaming_x[] = {KC_Z, KC_C, COMBO_END};
 const uint16_t PROGMEM gaming_super[] = {KC_LALT, KC_SPC, COMBO_END};
-const uint16_t PROGMEM all_capslock[] = {KC_LSFT, CW_TOGG, COMBO_END};
 const uint16_t PROGMEM l_brace[] = {KC_D, KC_F, COMBO_END};
 const uint16_t PROGMEM r_brace[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM l_paren[] = {KC_E, KC_R, COMBO_END};
-const uint16_t PROGMEM r_paren[] = {KC_U, KC_I, COMBO_END};
-const uint16_t PROGMEM l_ctrl[] = {KC_S, KC_D, COMBO_END};
-const uint16_t PROGMEM r_ctrl[] = {KC_K, KC_L, COMBO_END};
-const uint16_t PROGMEM all_alt[] = {KC_SPC, KC_ENT, COMBO_END};
+const uint16_t PROGMEM l_braceq[] = {QHRD, QHRF, COMBO_END};
+const uint16_t PROGMEM r_braceq[] = {QHRJ, QHRK, COMBO_END};
+const uint16_t PROGMEM l_bracec[] = {CHRS, CHRT, COMBO_END};
+const uint16_t PROGMEM r_bracec[] = {CHRN, CHRE, COMBO_END};
 
 combo_t key_combos[] = {
     [GAMING_ESC] = COMBO_ACTION(gaming_esc),
     [FPS_ESC] = COMBO_ACTION(fps_esc),
     [GAMING_X] = COMBO_ACTION(gaming_x),
     [GAMING_SUPER] = COMBO_ACTION(gaming_super),
-    [ALL_CAPSLOCK] = COMBO_ACTION(all_capslock),
     [L_BRACE] = COMBO(l_brace, KC_LBRC),
     [R_BRACE] = COMBO(r_brace, KC_RBRC),
-    [L_PAREN] = COMBO(l_paren, S(KC_9)),
-    [R_PAREN] = COMBO(r_paren, S(KC_0)),
-    [ALL_ALT] = COMBO(all_alt, KC_LALT),
-    [L_CTRL] = COMBO(l_ctrl, KC_LCTL),
-    [R_CTRL] = COMBO(r_ctrl, KC_RCTL),
+    [L_BRACEQ] = COMBO(l_braceq, KC_LBRC),
+    [R_BRACEQ] = COMBO(r_braceq, KC_RBRC),
+    [L_BRACEC] = COMBO(l_bracec, KC_LBRC),
+    [R_BRACEC] = COMBO(r_bracec, KC_RBRC),
 };
+
+#define SHORT_COMBO 20
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
         case L_BRACE:
-            return 20;
+            return SHORT_COMBO;
         case R_BRACE:
-            return 20;
-        case ALL_ALT:
-            return 20;
-        case L_CTRL:
-            return 20;
-        case R_CTRL:
-            return 20;
-        case L_PAREN:
-            return 20;
-        case R_PAREN:
-            return 20;
+            return SHORT_COMBO;
+        case L_BRACEQ:
+            return SHORT_COMBO;
+        case R_BRACEQ:
+            return SHORT_COMBO;
+        case L_BRACEC:
+            return SHORT_COMBO;
+        case R_BRACEC:
+            return SHORT_COMBO;
         default:
             return COMBO_TERM;
     }
@@ -446,11 +484,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             if (pressed) {
                 tap_code16(KC_LGUI);
                 tap_code16(KC_LGUI);
-            }
-            break;
-        case ALL_CAPSLOCK:
-            if (pressed) {
-                tap_code16(KC_CAPS);
             }
             break;
     }
