@@ -64,11 +64,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
         KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  CM_TOGG,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_QUOT,
+        CW_TOGG,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_QUOT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   QHRA,    QHRS,    QHRD,    QHRF,    KC_G,                       KC_H,    QHRJ,    QHRK,    QHRL,  QHRSCLN, KC_RALT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  TO(_VIM),  QK_LEAD,  KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,  TG(_VIM),  QK_LEAD,  KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                              KC_ESC, TAB_SIG,  KC_SPC,   KC_ENT, KC_BSPC,  KC_DEL
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -77,39 +77,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
         KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  CM_TOGG,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_TAB,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                       KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_QUOT,
+        CW_TOGG,   KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                       KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_QUOT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   CHRA,    CHRR,    CHRS,    CHRT,    KC_G,                       KC_M,    CHRN,    CHRE,    CHRI,    CHRO,  KC_RALT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,  TO(_VIM),  QK_LEAD,  KC_K,    KC_H,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,  TG(_VIM), QK_LEAD,   KC_K,    KC_H,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_ESC,  TAB_SIG,  KC_SPC,   KC_ENT,  KC_BSPC,  KC_DEL
+                                            KC_ESC,  TAB_SIG,  KC_SPC,   KC_ENT, KC_BSPC,  KC_DEL
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_SIGNS] = LAYOUT(
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
-        KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
+         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_NO,   KC_HOME,  KC_NO,   KC_END,  KC_NO,   KC_NO,                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_CAPS, KC_QUOT,  KC_LT,   KC_GT,   KC_DQT,  KC_GRV,                     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT,C(KC_BSPC),S(KC_9),KC_BSPC, S(KC_0),  KC_NO,                     KC_LBRC,  KC_MINS, KC_EQL,  KC_RBRC, KC_CAPS, CW_TOGG,
+        KC_LSFT, KC_LCBR, KC_LPRN, KC_RPRN, KC_RCBR,  KC_DLR,                    KC_UNDS,  KC_EQL, KC_MINS, KC_PLUS, KC_EXLM,  KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TAB,  QK_LEAD,  KC_DEL,  KC_GRV, KC_LEFT, KC_DOWN,  KC_UP,  KC_RIGHT,
+        KC_LCTL, KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  KC_NO,   KC_TAB,  QK_LEAD,  KC_NO,   KC_NO,  KC_SLSH, KC_ASTR,  KC_NO,   KC_NO,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_LGUI, KC_TRNS, KC_TRNS,   KC_ESC, KC_LSFT,  KC_LALT
+                                            KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_VIM] = LAYOUT(
     // ┌────────┬────────┬──────────────┬────────┬────────┬─────────────┐                  ┌──────────┬────────┬────────┬────────┬──────────┬────────┐
          KC_NO,   KC_NO,      KC_NO,      KC_END,  KC_NO,      KC_NO,                        KC_HOME,   KC_NO,   KC_NO,   KC_NO,   KC_HOME,   KC_NO,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┤                  ├──────────┼────────┼────────┼────────┼──────────┼────────┤
-         KC_NO,   KC_NO,  LCTL(KC_RGHT),  KC_END,  KC_NO,      KC_NO,                     LCTL(KC_C), KC_PGUP,TO(_QWERTY),KC_NO, LCTL(KC_V), KC_PPLS,
+         KC_NO,   KC_NO,  LCTL(KC_RGHT),  KC_END,  KC_NO,      KC_NO,                     LCTL(KC_C), KC_PGUP,TG(_VIM),KC_NO, LCTL(KC_V), KC_PPLS,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┤                  ├──────────┼────────┼────────┼────────┼──────────┼────────┤
         KC_LSFT, KC_HOME,     KC_NO,     KC_PGDN,  KC_NO,      KC_NO,                        KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT,  KC_NO,   KC_RSFT,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┼────────┐┌────────┼──────────┼────────┼────────┼────────┼──────────┼────────┤
-         KC_NO,   KC_NO,      KC_DEL,     KC_NO,  KC_LSFT, LCTL(KC_LEFT), KC_TAB,  QK_LEAD,  KC_DEL,   KC_BSPC,  KC_NO,   KC_NO,    KC_NO,    KC_NO,
+         KC_NO,   KC_NO,      KC_DEL,     KC_NO,  KC_LSFT, LCTL(KC_LEFT),TG(_VIM),  QK_LEAD,  KC_DEL,   KC_BSPC,  KC_NO,   KC_NO,    KC_NO,    KC_NO,
     // └────────┴────────┴──────────────┴────────┼────────┼─────────────┼────────┤├────────┼──────────┼────────┼────────┴────────┴──────────┴────────┘
-                                                   KC_NO,   TO(_QWERTY),  KC_NO,    KC_ENT,  KC_TRNS,   KC_NO
+                                                   KC_NO,    TG(_VIM),    KC_NO,    KC_ENT,  KC_TRNS,   KC_NO
     //                                           └────────┴─────────────┴────────┘└────────┴──────────┴────────┘
     ),
     [_MUSIC] = LAYOUT(
@@ -146,9 +146,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_G,    KC_A,    KC_S,    KC_D,    KC_F,                       KC_H,    KC_J,    KC_K,    KC_L,   KC_UP,  SC_RSPC,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LALT,   KC_B,    KC_Z,    KC_X,    KC_C,    KC_V,OSL(_GAMOD),QK_LEAD,   KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_RGHT,
+        KC_LCTL,   KC_B,    KC_Z,    KC_X,    KC_C,    KC_V,OSL(_GAMOD),QK_LEAD,   KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_RGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                             KC_TAB, KC_LCTL,  KC_SPC,   KC_ENT, KC_BSPC, KC_LGUI
+                                             KC_TAB, KC_LALT,  KC_SPC,   KC_ENT, KC_BSPC, KC_LGUI
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_GAMOD] = LAYOUT(
@@ -409,54 +409,36 @@ enum combo_events {
     FPS_ESC,
     GAMING_X,
     GAMING_SUPER,
-    L_BRACE,
-    R_BRACE,
-    L_BRACEQ,
-    R_BRACEQ,
-    L_BRACEC,
-    R_BRACEC,
+    LBRACE_Q,
+    RBRACE_Q,
+    LBRACE_C,
+    RBRACE_C,
 };
 
-const uint16_t PROGMEM gaming_esc[] = {KC_GRV, KC_Q, COMBO_END};
-const uint16_t PROGMEM fps_esc[] = {KC_GRV, KC_T, COMBO_END};
-const uint16_t PROGMEM gaming_x[] = {KC_Z, KC_C, COMBO_END};
+const uint16_t PROGMEM gaming_esc[]   = {KC_GRV, KC_Q, COMBO_END};
+const uint16_t PROGMEM fps_esc[]      = {KC_GRV, KC_T, COMBO_END};
+const uint16_t PROGMEM gaming_x[]     = {KC_Z, KC_C, COMBO_END};
 const uint16_t PROGMEM gaming_super[] = {KC_LALT, KC_SPC, COMBO_END};
-const uint16_t PROGMEM l_brace[] = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM r_brace[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM l_braceq[] = {QHRD, QHRF, COMBO_END};
-const uint16_t PROGMEM r_braceq[] = {QHRJ, QHRK, COMBO_END};
-const uint16_t PROGMEM l_bracec[] = {CHRS, CHRT, COMBO_END};
-const uint16_t PROGMEM r_bracec[] = {CHRN, CHRE, COMBO_END};
+const uint16_t PROGMEM lbrace_q[]     = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM rbrace_q[]     = {KC_I, KC_O, COMBO_END};
+const uint16_t PROGMEM lbrace_c[]     = {KC_W, KC_F, COMBO_END};
+const uint16_t PROGMEM rbrace_c[]     = {KC_U, KC_Y, COMBO_END};
 
 combo_t key_combos[] = {
     [GAMING_ESC] = COMBO_ACTION(gaming_esc),
     [FPS_ESC] = COMBO_ACTION(fps_esc),
     [GAMING_X] = COMBO_ACTION(gaming_x),
     [GAMING_SUPER] = COMBO_ACTION(gaming_super),
-    [L_BRACE] = COMBO(l_brace, KC_LBRC),
-    [R_BRACE] = COMBO(r_brace, KC_RBRC),
-    [L_BRACEQ] = COMBO(l_braceq, KC_LBRC),
-    [R_BRACEQ] = COMBO(r_braceq, KC_RBRC),
-    [L_BRACEC] = COMBO(l_bracec, KC_LBRC),
-    [R_BRACEC] = COMBO(r_bracec, KC_RBRC),
+    [LBRACE_Q] = COMBO(lbrace_q, KC_LBRC),
+    [RBRACE_Q] = COMBO(rbrace_q, KC_RBRC),
+    [LBRACE_C] = COMBO(lbrace_c, KC_LBRC),
+    [RBRACE_C] = COMBO(rbrace_c, KC_RBRC),
 };
 
 #define SHORT_COMBO 20
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
-        case L_BRACE:
-            return SHORT_COMBO;
-        case R_BRACE:
-            return SHORT_COMBO;
-        case L_BRACEQ:
-            return SHORT_COMBO;
-        case R_BRACEQ:
-            return SHORT_COMBO;
-        case L_BRACEC:
-            return SHORT_COMBO;
-        case R_BRACEC:
-            return SHORT_COMBO;
         default:
             return COMBO_TERM;
     }
@@ -493,13 +475,28 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     switch (combo_index) {
         case GAMING_ESC:
-            return layer_state_is(4) || layer_state_is(6);
+            return layer_state_is(_GAMING) || layer_state_is(_FPS);
             break;
         case GAMING_X:
-            return layer_state_is(4) || layer_state_is(6);
+            return layer_state_is(_GAMING) || layer_state_is(_FPS);
             break;
         case GAMING_SUPER:
-            return layer_state_is(4) || layer_state_is(6);
+            return layer_state_is(_GAMING) || layer_state_is(_FPS);
+            break;
+        case LBRACE_Q:
+            return layer_state_is(_QWERTY);
+            break;
+        case RBRACE_Q:
+            return layer_state_is(_QWERTY);
+            break;
+        case LBRACE_C:
+            return layer_state_is(_COLEMAK);
+            break;
+        case RBRACE_C:
+            return layer_state_is(_COLEMAK);
+            break;
+        default:
+            return !(layer_state_is(_GAMING) || layer_state_is(_FPS));
             break;
     }
     return true;
