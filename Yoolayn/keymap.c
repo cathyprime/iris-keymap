@@ -77,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
         KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  CM_TOGG,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        CW_TOGG,   KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                       KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_QUOT,
+        CW_TOGG,   KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                       KC_J,    KC_L,    KC_U,    KC_Y,  KC_SCLN, KC_QUOT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   CHRA,    CHRR,    CHRS,    CHRT,    KC_G,                       KC_M,    CHRN,    CHRE,    CHRI,    CHRO,  KC_RALT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -408,31 +408,29 @@ enum combo_events {
     GAMING_ESC,
     FPS_ESC,
     GAMING_X,
-    GAMING_SUPER,
     LBRACE_Q,
     RBRACE_Q,
     LBRACE_C,
     RBRACE_C,
 };
 
-const uint16_t PROGMEM gaming_esc[]   = {KC_GRV, KC_Q, COMBO_END};
-const uint16_t PROGMEM fps_esc[]      = {KC_GRV, KC_T, COMBO_END};
-const uint16_t PROGMEM gaming_x[]     = {KC_Z, KC_C, COMBO_END};
 const uint16_t PROGMEM gaming_super[] = {KC_LALT, KC_SPC, COMBO_END};
+const uint16_t PROGMEM gaming_esc[]   = {KC_GRV, KC_Q, COMBO_END};
+const uint16_t PROGMEM gaming_x[]     = {KC_Z, KC_C, COMBO_END};
 const uint16_t PROGMEM lbrace_q[]     = {KC_W, KC_E, COMBO_END};
 const uint16_t PROGMEM rbrace_q[]     = {KC_I, KC_O, COMBO_END};
 const uint16_t PROGMEM lbrace_c[]     = {KC_W, KC_F, COMBO_END};
 const uint16_t PROGMEM rbrace_c[]     = {KC_U, KC_Y, COMBO_END};
+const uint16_t PROGMEM fps_esc[]      = {KC_GRV, KC_T, COMBO_END};
 
 combo_t key_combos[] = {
-    [GAMING_ESC] = COMBO_ACTION(gaming_esc),
-    [FPS_ESC] = COMBO_ACTION(fps_esc),
-    [GAMING_X] = COMBO_ACTION(gaming_x),
-    [GAMING_SUPER] = COMBO_ACTION(gaming_super),
-    [LBRACE_Q] = COMBO(lbrace_q, KC_LBRC),
-    [RBRACE_Q] = COMBO(rbrace_q, KC_RBRC),
-    [LBRACE_C] = COMBO(lbrace_c, KC_LBRC),
-    [RBRACE_C] = COMBO(rbrace_c, KC_RBRC),
+    [GAMING_ESC] = COMBO(gaming_esc, KC_ESC),
+    [GAMING_X]   = COMBO(gaming_x, KC_X),
+    [LBRACE_Q]   = COMBO(lbrace_q, KC_LBRC),
+    [RBRACE_Q]   = COMBO(rbrace_q, KC_RBRC),
+    [LBRACE_C]   = COMBO(lbrace_c, KC_LBRC),
+    [RBRACE_C]   = COMBO(rbrace_c, KC_RBRC),
+    [FPS_ESC]    = COMBO(fps_esc, KC_ESC),
 };
 
 #define SHORT_COMBO 20
@@ -444,43 +442,16 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     }
 };
 
-//results
-void process_combo_event(uint16_t combo_index, bool pressed) {
-    switch (combo_index) {
-        case GAMING_ESC:
-            if(pressed) {
-                tap_code16(KC_ESC);
-            }
-            break;
-        case FPS_ESC:
-            if(pressed) {
-                tap_code16(KC_ESC);
-            }
-            break;
-        case GAMING_X:
-            if (pressed) {
-                tap_code16(KC_X);
-            }
-            break;
-        case GAMING_SUPER:
-            if (pressed) {
-                tap_code16(KC_LGUI);
-                tap_code16(KC_LGUI);
-            }
-            break;
-    }
-}
-
 //restrictions
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     switch (combo_index) {
+        case FPS_ESC:
+            return layer_state_is(_GAMING) || layer_state_is(_FPS);
+            break;
         case GAMING_ESC:
             return layer_state_is(_GAMING) || layer_state_is(_FPS);
             break;
         case GAMING_X:
-            return layer_state_is(_GAMING) || layer_state_is(_FPS);
-            break;
-        case GAMING_SUPER:
             return layer_state_is(_GAMING) || layer_state_is(_FPS);
             break;
         case LBRACE_Q:
