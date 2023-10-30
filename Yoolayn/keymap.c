@@ -437,6 +437,14 @@ combo_t key_combos[] = {
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
     switch(index) {
+        case LBRACE_Q:
+            return 15;
+        case RBRACE_Q:
+            return 15;
+        case LBRACE_C:
+            return 15;
+        case RBRACE_C:
+            return 15;
         default:
             return COMBO_TERM;
     }
