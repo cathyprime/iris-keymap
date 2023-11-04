@@ -12,24 +12,24 @@
 #define _LEADER 8
 
 // colemak homerow
-#define CHRA LALT_T(KC_A)
-#define CHRR LGUI_T(KC_R)
+#define CHRA LGUI_T(KC_A)
+#define CHRR LALT_T(KC_R)
 #define CHRS LSFT_T(KC_S)
 #define CHRT LCTL_T(KC_T)
 
-#define CHRO LALT_T(KC_O)
-#define CHRI LGUI_T(KC_I)
+#define CHRO LGUI_T(KC_O)
+#define CHRI LALT_T(KC_I)
 #define CHRE RSFT_T(KC_E)
 #define CHRN RCTL_T(KC_N)
 
 // qwerty homerow
-#define QHRA LALT_T(KC_A)
-#define QHRS LGUI_T(KC_S)
+#define QHRA LGUI_T(KC_A)
+#define QHRS LALT_T(KC_S)
 #define QHRD LSFT_T(KC_D)
 #define QHRF LCTL_T(KC_F)
 
-#define QHRSCLN LALT_T(KC_SCLN)
-#define QHRL LGUI_T(KC_L)
+#define QHRSCLN LGUI_T(KC_SCLN)
+#define QHRL LALT_T(KC_L)
 #define QHRK RSFT_T(KC_K)
 #define QHRJ RCTL_T(KC_J)
 
@@ -92,9 +92,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_CAPS, KC_QUOT,  KC_LT,   KC_GT,   KC_DQT,  KC_GRV,                     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT, KC_LCBR, KC_LPRN, KC_RPRN, KC_RCBR,  KC_DLR,                    KC_UNDS,  KC_EQL, KC_MINS, KC_PLUS, KC_EXLM,  KC_NO,
+        KC_LSFT, KC_LCBR, KC_LPRN, KC_RPRN, KC_RCBR,  KC_DLR,                    KC_UNDS,  KC_EQL, KC_MINS, KC_PLUS,  KC_UP,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL, KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  KC_NO,   KC_TAB,  QK_LEAD,  KC_NO,   KC_NO,  KC_SLSH, KC_ASTR,  KC_NO,   KC_NO,
+        KC_LCTL, KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  KC_NO,   KC_TAB,  QK_LEAD,  KC_NO,   KC_NO,  KC_SLSH, KC_LEFT, KC_DOWN,  KC_RGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
