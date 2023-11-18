@@ -90,11 +90,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
          KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_CAPS, KC_QUOT,  KC_LT,   KC_GT,   KC_DQT,  KC_GRV,                     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_CAPS, KC_QUOT,  KC_LT,   KC_GT,   KC_DQT,  KC_GRV,                     KC_NO,   KC_NO,  KC_LBRC, KC_RBRC,  KC_NO,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT, KC_LCBR, KC_LPRN, KC_RPRN, KC_RCBR,  KC_DLR,                    KC_UNDS,  KC_EQL, KC_MINS, KC_PLUS,  KC_UP,   KC_NO,
+        KC_LSFT, KC_LCBR, KC_LPRN, KC_RPRN, KC_RCBR,  KC_DLR,                    KC_UNDS,  KC_EQL, KC_MINS, KC_PLUS, KC_BSLS,  KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL, KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  KC_NO,   KC_TAB,  QK_LEAD,  KC_NO,   KC_NO,  KC_SLSH, KC_LEFT, KC_DOWN,  KC_RGHT,
+        KC_LCTL, KC_LEFT, KC_DOWN,  KC_UP,  KC_RGHT,  KC_NO,   KC_TAB,  QK_LEAD,  KC_NO,   KC_NO,  KC_SLSH,  KC_NO,   KC_NO,   KC_NO,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -103,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ┌────────┬────────┬──────────────┬────────┬────────┬─────────────┐                  ┌──────────┬────────┬────────┬────────┬──────────┬────────┐
          KC_NO,   KC_NO,      KC_NO,      KC_END,  KC_NO,      KC_NO,                        KC_HOME,   KC_NO,   KC_NO,   KC_NO,   KC_HOME,   KC_NO,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┤                  ├──────────┼────────┼────────┼────────┼──────────┼────────┤
-         KC_NO,   KC_NO,  LCTL(KC_RGHT),  KC_END,  KC_NO,      KC_NO,                     LCTL(KC_C), KC_PGUP,TG(_VIM),KC_NO, LCTL(KC_V), KC_PPLS,
+         KC_NO,   KC_NO,  LCTL(KC_RGHT),  KC_END,  KC_NO,      KC_NO,                     LCTL(KC_C), KC_PGUP, TG(_VIM),  KC_NO, LCTL(KC_V), KC_PPLS,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┤                  ├──────────┼────────┼────────┼────────┼──────────┼────────┤
         KC_LSFT, KC_HOME,     KC_NO,     KC_PGDN,  KC_NO,      KC_NO,                        KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT,  KC_NO,   KC_RSFT,
     // ├────────┼────────┼──────────────┼────────┼────────┼─────────────┼────────┐┌────────┼──────────┼────────┼────────┼────────┼──────────┼────────┤
@@ -203,6 +203,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return 140;
         case TD(TD_ALT):
             return 200;
+        case TAB_SIG:
+            return 80;
         default:
             return TAPPING_TERM;
     }
