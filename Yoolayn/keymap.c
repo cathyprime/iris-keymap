@@ -204,7 +204,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case TD(TD_ALT):
             return 200;
         case TAB_SIG:
-            return 80;
+            return 140;
         default:
             return TAPPING_TERM;
     }
