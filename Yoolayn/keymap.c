@@ -7,9 +7,8 @@
 #define _VIM 3
 #define _MUSIC 4
 #define _GAMING 5
-#define _FPS 6
-#define _GAMOD 7
-#define _LEADER 8
+#define _GAMOD 6
+#define _LEADER 7
 
 // colemak homerow
 #define CHRA LGUI_T(KC_A)
@@ -127,24 +126,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_GAMING] = LAYOUT(
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
-         KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  TG(_FPS),
-    // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-         KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_PPLS,
-    // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,   KC_UP,  TG(_GAMING),
-    // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,OSL(_GAMOD),QK_LEAD,   KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_RGHT,
-    // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_LALT,  KC_SPC,  KC_TAB,   KC_ENT, KC_BSPC, KC_LGUI
-    //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
-    ),
-    [_FPS] = LAYOUT(
-    // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
          KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_GRV,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
          KC_TAB,   KC_T,    KC_Q,    KC_W,    KC_E,    KC_R,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_PPLS,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT,   KC_G,    KC_A,    KC_S,    KC_D,    KC_F,                       KC_H,    KC_J,    KC_K,    KC_L,   KC_UP,  TG(_FPS),
+        KC_LSFT,   KC_G,    KC_A,    KC_S,    KC_D,    KC_F,                       KC_H,    KC_J,    KC_K,    KC_L,   KC_UP,  TG(_GAMING),
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL,   KC_B,    KC_Z,    KC_X,    KC_C,    KC_V,OSL(_GAMOD),QK_LEAD,   KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_RGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
@@ -342,9 +328,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             gamod_colors(0, NULL, 0, NULL);
             transaction_rpc_send(GAMOD_SYNC, 0, NULL);
             break;
-        case _FPS:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_PIXEL_RAIN);
-            break;
     }
     return state;
 }
@@ -382,9 +365,6 @@ void leader_end_user(void) {
 
     } else if (leader_sequence_two_keys(KC_L, KC_C)) {
         layer_move(_COLEMAK);
-
-    } else if (leader_sequence_two_keys(KC_L, KC_F)) {
-        layer_move(_FPS);
 
     } else if (leader_sequence_two_keys(KC_T, KC_R)) {
         rgb_matrix_toggle();
@@ -459,13 +439,13 @@ uint16_t get_combo_term(uint16_t index, combo_t *combo) {
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
     switch (combo_index) {
         case FPS_ESC:
-            return layer_state_is(_GAMING) || layer_state_is(_FPS);
+            return layer_state_is(_GAMING);
             break;
         case GAMING_ESC:
-            return layer_state_is(_GAMING) || layer_state_is(_FPS);
+            return layer_state_is(_GAMING);
             break;
         case GAMING_X:
-            return layer_state_is(_GAMING) || layer_state_is(_FPS);
+            return layer_state_is(_GAMING);
             break;
         case LBRACE_Q:
             return layer_state_is(_QWERTY);
@@ -480,7 +460,7 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
             return layer_state_is(_COLEMAK);
             break;
         default:
-            return !(layer_state_is(_GAMING) || layer_state_is(_FPS));
+            return !(layer_state_is(_GAMING));
             break;
     }
     return true;
