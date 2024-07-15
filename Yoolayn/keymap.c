@@ -402,37 +402,22 @@ enum combo_events {
 const uint16_t PROGMEM gaming_super[] = {KC_LALT, KC_SPC, COMBO_END};
 const uint16_t PROGMEM gaming_esc[]   = {KC_GRV, KC_Q, COMBO_END};
 const uint16_t PROGMEM gaming_x[]     = {KC_Z, KC_C, COMBO_END};
-const uint16_t PROGMEM lbrace_q[]     = {KC_W, KC_E, COMBO_END};
-const uint16_t PROGMEM rbrace_q[]     = {KC_I, KC_O, COMBO_END};
-const uint16_t PROGMEM lbrace_c[]     = {KC_W, KC_F, COMBO_END};
-const uint16_t PROGMEM rbrace_c[]     = {KC_U, KC_Y, COMBO_END};
 const uint16_t PROGMEM fps_esc[]      = {KC_GRV, KC_T, COMBO_END};
 
 combo_t key_combos[] = {
     [GAMING_ESC] = COMBO(gaming_esc, KC_ESC),
     [GAMING_X]   = COMBO(gaming_x, KC_X),
-    [LBRACE_Q]   = COMBO(lbrace_q, KC_LBRC),
-    [RBRACE_Q]   = COMBO(rbrace_q, KC_RBRC),
-    [LBRACE_C]   = COMBO(lbrace_c, KC_LBRC),
-    [RBRACE_C]   = COMBO(rbrace_c, KC_RBRC),
     [FPS_ESC]    = COMBO(fps_esc, KC_ESC),
 };
 
 #define SHORT_COMBO 20
 
 uint16_t get_combo_term(uint16_t index, combo_t *combo) {
-    switch(index) {
-        case LBRACE_Q:
-            return 15;
-        case RBRACE_Q:
-            return 15;
-        case LBRACE_C:
-            return 15;
-        case RBRACE_C:
-            return 15;
-        default:
-            return COMBO_TERM;
-    }
+    // switch(index) {
+    //     default:
+    //         return COMBO_TERM;
+    // }
+    return SHORT_COMBO;
 };
 
 //restrictions
@@ -446,18 +431,6 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
             break;
         case GAMING_X:
             return layer_state_is(_GAMING);
-            break;
-        case LBRACE_Q:
-            return layer_state_is(_QWERTY);
-            break;
-        case RBRACE_Q:
-            return layer_state_is(_QWERTY);
-            break;
-        case LBRACE_C:
-            return layer_state_is(_COLEMAK);
-            break;
-        case RBRACE_C:
-            return layer_state_is(_COLEMAK);
             break;
         default:
             return !(layer_state_is(_GAMING));
