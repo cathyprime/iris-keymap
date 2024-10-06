@@ -4,11 +4,9 @@
 #define _QWERTY 0
 #define _COLEMAK 1
 #define _SIGNS 2
-#define _VIM 3
-#define _MUSIC 4
-#define _GAMING 5
-#define _GAMOD 6
-#define _LEADER 7
+#define _GAMING 3
+#define _GAMOD 4
+#define _LEADER 5
 
 // colemak homerow
 #define CHRA LGUI_T(KC_A)
