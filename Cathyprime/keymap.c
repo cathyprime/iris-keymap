@@ -8,27 +8,27 @@
 #define _GAMOD 4
 #define _LEADER 5
 
-// colemak homerow
-#define CHRA LGUI_T(KC_A)
-#define CHRR LALT_T(KC_R)
-#define CHRS LSFT_T(KC_S)
-#define CHRT LCTL_T(KC_T)
-
-#define CHRO LALT_T(KC_O)
-#define CHRI LGUI_T(KC_I)
-#define CHRE RSFT_T(KC_E)
-#define CHRN RCTL_T(KC_N)
-
 // qwerty homerow
 #define QHRA LGUI_T(KC_A)
-#define QHRS LALT_T(KC_S)
-#define QHRD LSFT_T(KC_D)
+#define QHRS LSFT_T(KC_S)
+#define QHRD LALT_T(KC_D)
 #define QHRF LCTL_T(KC_F)
 
-#define QHRSCLN LALT_T(KC_SCLN)
-#define QHRL LGUI_T(KC_L)
-#define QHRK RSFT_T(KC_K)
-#define QHRJ RCTL_T(KC_J)
+#define QHRJ    LGUI_T(KC_J)
+#define QHRK    RSFT_T(KC_K)
+#define QHRL    LALT_T(KC_L)
+#define QHRSCLN LCTL_T(KC_SCLN)
+
+// colemak homerow
+#define CHRA LGUI_T(KC_A)
+#define CHRR LSFT_T(KC_R)
+#define CHRS LALT_T(KC_S)
+#define CHRT LCTL_T(KC_T)
+
+#define CHRN LGUI_T(KC_N)
+#define CHRE RSFT_T(KC_E)
+#define CHRO LALT_T(KC_O)
+#define CHRI RCTL_T(KC_I)
 
 #define TAB_SIG LT(_SIGNS, KC_TAB)
 
@@ -122,6 +122,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 // clang-format on
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TAB_SIG:
+            return 100;
+        default:
+            return TAPPING_TERM;
+    }
+}
 
 /**
  * Here's an LED number guide:
