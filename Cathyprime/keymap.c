@@ -15,9 +15,9 @@
 #define QHRF LCTL_T(KC_F)
 
 #define QHRJ    LGUI_T(KC_J)
-#define QHRK    RSFT_T(KC_K)
-#define QHRL    LALT_T(KC_L)
-#define QHRSCLN LCTL_T(KC_SCLN)
+#define QHRK    LCTL_T(KC_K)
+#define QHRL    RSFT_T(KC_L)
+#define QHRSCLN LALT_T(KC_SCLN)
 
 // colemak homerow
 #define CHRA LGUI_T(KC_A)
@@ -26,9 +26,9 @@
 #define CHRT LCTL_T(KC_T)
 
 #define CHRN LGUI_T(KC_N)
-#define CHRE RSFT_T(KC_E)
-#define CHRO LALT_T(KC_O)
-#define CHRI RCTL_T(KC_I)
+#define CHRE RCTL_T(KC_E)
+#define CHRO RSFT_T(KC_O)
+#define CHRI LALT_T(KC_I)
 
 #define TAB_SIG LT(_SIGNS, KC_TAB)
 
@@ -36,7 +36,7 @@ enum custom_keycodes {
     QWERTY = SAFE_RANGE,
     SIGNS,
     VIM,
-    MODL,
+    MODL
 };
 
 // clang-format off
@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,  KC_MUTE,  QK_LEAD,   KC_K,    KC_H,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                             KC_ESC,  TAB_SIG,  KC_SPC,   KC_ENT, KC_BSPC,  KC_DEL
+                                             KC_ESC,  TAB_SIG, KC_SPC,   KC_ENT, KC_BSPC,  KC_DEL
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_SIGNS] = LAYOUT(
@@ -102,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,  KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_MUTE,  KC_TRNS,  QK_LEAD, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_LCTL,  KC_NO,   KC_NO,   KC_NO,  KC_MUTE,  KC_NO,  KC_TRNS,  QK_LEAD,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             KC_TRNS, KC_LCTL, KC_LCTL,  KC_TRNS, KC_TRNS, KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
