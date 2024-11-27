@@ -213,12 +213,6 @@ void cluster_color(void)
                 rgb_matrix_set_color(indexes[i], 25, 8, 0);
             }
         }
-    } else if (!is_combo_enabled()) {
-        uint8_t combo[] = {58, 59, 60, 61};
-        uint8_t numCombo = sizeof(combo) / sizeof(combo[0]);
-        for (size_t i = 0; i < numCombo; i++) {
-            rgb_matrix_set_color(combo[i], 25, 0, 0);
-        }
     } else if (is_caps_word_on() | capsWordStatus) {
         if (host_keyboard_led_state().caps_lock) {
             for (size_t i = 0; i < numIndexes; i++) {
@@ -313,9 +307,6 @@ void leader_end_user(void)
     } else if (leader_sequence_two_keys(KC_T, KC_R)) {
         rgb_matrix_toggle();
 
-    } else if (leader_sequence_two_keys(KC_T, KC_C)) {
-        combo_toggle();
-
     } else if (leader_sequence_two_keys(KC_T, KC_L)) {
         rgb_matrix_mode_noeeprom(RGB_MATRIX_PIXEL_RAIN);
     }
@@ -330,41 +321,4 @@ void keyboard_post_init_user(void)
     transaction_register_rpc(CAPS_WORD_SYNC, update_caps);
     transaction_register_rpc(LEADER_SYNC, update_leader);
     transaction_register_rpc(GAMOD_SYNC, gamod_colors);
-}
-
-// combo
-// definitions
-enum combo_events {
-    GAMING_X,
-};
-
-const uint16_t PROGMEM gaming_x[] = {KC_Z, KC_C, COMBO_END};
-
-combo_t key_combos[] = {
-    [GAMING_X] = COMBO(gaming_x, KC_X),
-};
-
-#define SHORT_COMBO 20
-
-uint16_t get_combo_term(uint16_t index, combo_t* combo)
-{
-    // switch(index) {
-    //     default:
-    //         return COMBO_TERM;
-    // }
-    return SHORT_COMBO;
-};
-
-// restrictions
-bool combo_should_trigger(uint16_t combo_index, combo_t* combo, uint16_t keycode, keyrecord_t* record)
-{
-    switch (combo_index) {
-        case GAMING_X:
-            return layer_state_is(_GAMING);
-            break;
-        default:
-            return !(layer_state_is(_GAMING));
-            break;
-    }
-    return true;
 }
