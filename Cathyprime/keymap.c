@@ -72,9 +72,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
          KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                      KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_CAPS,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                     KC_SLSH, KC_BSLS, KC_LBRC, KC_RBRC,  KC_NO,   KC_NO,
+        KC_CAPS,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                     KC_SLSH, KC_BSLS, KC_LBRC, KC_RBRC,  KC_NO,  KC_PGUP,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT, KC_LCBR, KC_LPRN, KC_RPRN, KC_RCBR,  KC_DLR,                    KC_UNDS,  KC_EQL, KC_MINS, KC_PLUS,  KC_UP,   KC_NO,
+        KC_LSFT, KC_LCBR, KC_LPRN, KC_RPRN, KC_RCBR,  KC_DLR,                    KC_UNDS,  KC_EQL, KC_MINS, KC_PLUS,  KC_UP,  KC_PGDN,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL, KC_QUOT,  KC_LT,   KC_GT,   KC_DQT,  KC_NO,  KC_TRNS,  QK_LEAD,  KC_NO,   KC_NO,   KC_GRV, KC_LEFT, KC_DOWN, KC_RIGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
@@ -132,7 +132,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-/**
+/*
  * Here's an LED number guide:
  * FRONT
  * Left Hand                    Right Hand
