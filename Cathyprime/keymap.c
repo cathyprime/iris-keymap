@@ -150,29 +150,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
  *             |--|62|--|    |--|28|--|
  */
 
-void gamod_colors(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data)
-{
-    if (IS_LAYER_ON(_GAMOD)) {
-        if (is_keyboard_master()) {
-            uint8_t indexes[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
-                44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
-                54, 55, 56, 57, 58, 59, 60, 61};
-            size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
-            for (size_t i = 0; i < numIndexes; i++) {
-                rgb_matrix_set_color(indexes[i], 25, 8, 0);
-            }
-        } else {
-            uint8_t indexes[] = {0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
-                10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                20, 21, 22, 23, 24, 25, 26, 27};
-            size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
-            for (size_t i = 0; i < numIndexes; i++) {
-                rgb_matrix_set_color(indexes[i], 0, 0, 20);
-            }
-        }
-    }
-}
-
 // layer lighting
 bool leader_mode = false;
 bool capsWordStatus = false;
@@ -200,11 +177,11 @@ bool is_leader_active(void)
  *             |24|25|26|    |60|59|58|
  */
 
+const uint8_t indexes[] = {24, 25, 26, 27, 61, 60, 59, 58};
+const size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
+
 void cluster_color(void)
 {
-    uint8_t indexes[] = {24, 25, 26, 27, 61, 60, 59, 58};
-    size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
-
     if (is_leader_active() | leader_mode) {
         for (size_t i = 0; i < numIndexes; i++) {
             if (i >= 0 && i <= 3) {
@@ -245,7 +222,6 @@ void housekeeping_task_user(void)
             bool active_leader = is_leader_active();
             transaction_rpc_send(CAPS_WORD_SYNC, sizeof(active_caps), &active_caps);
             transaction_rpc_send(LEADER_SYNC, sizeof(active_leader), &active_leader);
-            transaction_rpc_send(GAMOD_SYNC, 0, NULL);
         }
     }
 }
@@ -266,10 +242,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _GAMING:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_PIXEL_RAIN);
             break;
-        case _GAMOD:
-            gamod_colors(0, NULL, 0, NULL);
-            transaction_rpc_send(GAMOD_SYNC, 0, NULL);
-            break;
     }
     return state;
 }
@@ -288,12 +260,6 @@ void leader_end_user(void)
 
     if (leader_sequence_one_key(QK_LEAD)) {
         return;
-
-    } else if (leader_sequence_one_key(KC_J)) {
-        tap_code16(KC_PMNS);
-
-    } else if (leader_sequence_one_key(KC_K)) {
-        tap_code16(KC_PAST);
 
     } else if (leader_sequence_two_keys(KC_L, KC_G)) {
         layer_move(_GAMING);
@@ -320,5 +286,4 @@ void keyboard_post_init_user(void)
     rgb_matrix_set_speed(31);
     transaction_register_rpc(CAPS_WORD_SYNC, update_caps);
     transaction_register_rpc(LEADER_SYNC, update_leader);
-    transaction_register_rpc(GAMOD_SYNC, gamod_colors);
 }
