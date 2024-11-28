@@ -245,7 +245,7 @@ void housekeeping_task_user(void)
             bool active_leader = is_leader_active();
             transaction_rpc_send(CAPS_WORD_SYNC, sizeof(active_caps), &active_caps);
             transaction_rpc_send(LEADER_SYNC, sizeof(active_leader), &active_leader);
-            transaction_rpc_send(GAMOD_SYNC, sizeof(active_leader), &active_leader);
+            transaction_rpc_send(GAMOD_SYNC, 0, NULL);
         }
     }
 }
