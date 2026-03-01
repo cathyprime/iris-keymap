@@ -51,8 +51,7 @@ static inline void rgb_toggle(void)
 
 enum custom_keycodes
 {
-    MUTE_RGB = SAFE_RANGE,
-    GRAVE_ESC
+    MUTE_RGB = SAFE_RANGE
 };
 
 // clang-format off
@@ -81,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL, KC_QUOT,  KC_LT,   KC_GT,   KC_DQT,  KC_NO,  KC_TRNS,   KC_NO,   KC_NO,  KC_PLUS,  KC_GRV, KC_LEFT, KC_DOWN, KC_RIGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_LALT, KC_TRNS, KC_TRNS,  KC_TRNS,  KC_DEL,  KC_TRNS
+                                            ESC_ALT, KC_TRNS, KC_TRNS,  KC_TRNS,  KC_DEL,  KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_GAMING] = LAYOUT(
@@ -94,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, TG(_GAMING),KC_LALT,  KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_RGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_LALT, MO(_GAMOD),KC_SPC,   KC_ENT, KC_BSPC, KC_LGUI
+                                           ESC_ALT, MO(_GAMOD),KC_SPC,   KC_ENT, KC_BSPC, KC_LGUI
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_GAMOD] = LAYOUT(
@@ -107,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_TRNS,  KC_NO,   KC_NO,   KC_NO,  KC_MUTE,  KC_NO,  KC_TRNS,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_TRNS, KC_TRNS, KC_LCTL,  KC_TRNS,  KC_DEL, KC_TRNS
+                                            ESC_ALT, KC_TRNS, KC_LCTL,  KC_TRNS,  KC_DEL, KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     )
 };
