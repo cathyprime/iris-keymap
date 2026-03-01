@@ -43,12 +43,16 @@ enum layers
 bool can_rgb = false;
 #define rgb_set_mode(mode) if (can_rgb) rgb_matrix_mode_noeeprom(mode)
 #define rgb_set_color(...) if (can_rgb) rgb_matrix_sethsv_noeeprom(__VA_ARGS__)
-#define rgb_toggle()       if (can_rgb) rgb_matrix_toggle()
 #define rgb_enable()       if (can_rgb) rgb_matrix_enable_noeeprom()
+static inline void rgb_toggle(void)
+{
+    if (can_rgb) rgb_matrix_toggle();
+}
 
 enum custom_keycodes
 {
-    MUTE_RGB = SAFE_RANGE
+    MUTE_RGB = SAFE_RANGE,
+    GRAVE_ESC
 };
 
 // clang-format off
@@ -77,12 +81,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL, KC_QUOT,  KC_LT,   KC_GT,   KC_DQT,  KC_NO,  KC_TRNS,   KC_NO,   KC_NO,  KC_PLUS,  KC_GRV, KC_LEFT, KC_DOWN, KC_RIGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS,  KC_DEL,  KC_TRNS
+                                            KC_LALT, KC_TRNS, KC_TRNS,  KC_TRNS,  KC_DEL,  KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_GAMING] = LAYOUT(
     // ┌────────┬────────┬────────┬────────┬────────┬────────┐                  ┌────────┬────────┬────────┬────────┬────────┬────────┐
-         KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_GRV,
+        GRAVE_ESC, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_GRV,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
          KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_PPLS,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
@@ -90,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, TG(_GAMING),KC_LALT,  KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_RGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
-                                            KC_ESC, MO(_GAMOD),KC_SPC,   KC_ENT, KC_BSPC, KC_LGUI
+                                            KC_LALT, MO(_GAMOD),KC_SPC,   KC_ENT, KC_BSPC, KC_LGUI
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
     ),
     [_GAMOD] = LAYOUT(
@@ -99,9 +103,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
          KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,                     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_TRNS,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT,  KC_NO,   KC_NO,   KC_NO,  KC_MUTE,  KC_NO,  KC_TRNS,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_TRNS,  KC_NO,   KC_NO,   KC_NO,  KC_MUTE,  KC_NO,  KC_TRNS,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             KC_TRNS, KC_TRNS, KC_LCTL,  KC_TRNS,  KC_DEL, KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -150,6 +154,7 @@ const static size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
 
 static void cluster_color(void)
 {
+    if (!can_rgb) return;
     if (host_keyboard_led_state().caps_lock)
     {
         for (size_t i = 0; i < numIndexes; i++)
@@ -186,25 +191,26 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     log_msg("process_record_user");
-    static uint16_t mute_timer;
+    static uint16_t timer;
 
-    switch (keycode)
-    {
-        case MUTE_RGB:
-            if (record->event.pressed)
-            {
-                mute_timer = timer_read();
+    switch (keycode) {
+        case GRAVE_ESC:
+        case MUTE_RGB: {
+            if (record->event.pressed) {
+                timer = timer_read();
+                return false;
             }
-            else
-            {
-                if (timer_elapsed(mute_timer) < TAPPING_TERM)
-                    tap_code(KC_MUTE);
-                else
-                    rgb_toggle();
+            if (timer_elapsed(timer) < TAPPING_TERM) {
+                tap_code(keycode == GRAVE_ESC ? KC_ESC : KC_MUTE);
+            } else {
+                if (keycode == MUTE_RGB) rgb_toggle();
+                else tap_code(KC_GRV);
             }
             return false;
-        default: return true;
+        };
+        default: break;
     }
+    return true;
 }
 
 void update_rgb_slave_handler(uint8_t in_buflen, const void* in_data, uint8_t, void*)
