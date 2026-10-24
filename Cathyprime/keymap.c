@@ -36,11 +36,16 @@ enum layers
 // #define MY_RED    194, 255, 255
 #define MY_RED    255, 255, 255
 
+#define MY_YELLOW 42, 255, 255
+
 #define TAB_SIG LT(_SIGNS, KC_TAB)
 #define ESC_ALT MT(MOD_LALT, KC_ESC)
 #define TAB_GUI MT(MOD_LGUI, KC_TAB)
 
 bool can_rgb = false;
+#define GAMING_RAIN_DELAY 120
+static uint16_t gaming_rain_timer = 0;
+static bool     gaming_rain_pending = false;
 #define rgb_set_mode(mode) if (can_rgb) rgb_matrix_mode_noeeprom(mode)
 #define rgb_set_color(...) if (can_rgb) rgb_matrix_sethsv_noeeprom(__VA_ARGS__)
 #define rgb_enable()       if (can_rgb) rgb_matrix_enable_noeeprom()
@@ -173,18 +178,32 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state))
     {
         case _QWERTY:
+            gaming_rain_pending = false;
             rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
             rgb_set_color(MY_PURPLE);
             break;
         case _SIGNS:
+            gaming_rain_pending = false;
             rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
             rgb_set_color(MY_RED);
             break;
         case _GAMING:
-            rgb_set_mode(RGB_MATRIX_PIXEL_RAIN);
+            rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
+            rgb_set_color(MY_YELLOW);
+            gaming_rain_timer = timer_read();
+            gaming_rain_pending = true;
             break;
     }
     return state;
+}
+
+void housekeeping_task_user(void)
+{
+    if (gaming_rain_pending && timer_elapsed(gaming_rain_timer) > GAMING_RAIN_DELAY)
+    {
+        gaming_rain_pending = false;
+        rgb_set_mode(RGB_MATRIX_PIXEL_RAIN);
+    }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
