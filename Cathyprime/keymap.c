@@ -94,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT, KC_LCBR, KC_LPRN, KC_RPRN, KC_RCBR,  KC_DLR,                    KC_UNDS,  KC_EQL, KC_MINS, KC_HOME,  KC_UP,  KC_END,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL, KC_QUOT,  KC_LT,   KC_GT,   KC_DQT,  KC_NO,  KC_TRNS,  MUTE_RGB, KC_NO,  KC_PLUS,  KC_GRV, KC_LEFT, KC_DOWN, KC_RIGHT,
+        KC_LCTL, KC_QUOT,  KC_LT,   KC_GT,   KC_MUTE, KC_NO,  KC_TRNS,  MUTE_RGB, KC_NO,  KC_PLUS,  KC_GRV, KC_LEFT, KC_DOWN, KC_RIGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             ESC_ALT, KC_TRNS, KC_TRNS,  KC_TRNS,  KC_DEL,  KC_TRNS
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
