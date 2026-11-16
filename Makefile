@@ -15,7 +15,7 @@ define run
 	@echo "keymap :: $(KEYMAP)"
 	@echo "flash  :: $(FLASH)"
 	@echo "debug  :: $(DEBUG)"
-	$(call qmk_cmd,$(KEYMAP)) && @echo "====== YOU CAN NOW UNPLUG ======" && $(call qmk_cmd,$(KEYMAP))
+	$(call qmk_cmd,$(KEYMAP)) && echo "====== YOU CAN NOW UNPLUG ======" && $(call qmk_cmd,$(KEYMAP))
 
 endef
 

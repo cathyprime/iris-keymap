@@ -22,8 +22,7 @@
 #endif
 #pragma endregion DEBUG
 
-enum layers
-{
+enum layers {
     _QWERTY,
     _SIGNS,
     _GAMING,
@@ -48,6 +47,7 @@ volatile bool can_rgb = false;
 #define rgb_set_mode(mode) do { if (can_rgb) rgb_matrix_mode_noeeprom(mode); } while(0)
 #define rgb_set_color(...) do { if (can_rgb) rgb_matrix_sethsv_noeeprom(__VA_ARGS__); } while(0)
 #define rgb_enable()       do { if (can_rgb) rgb_matrix_enable_noeeprom(); } while(0)
+#define rgb_toggle()       do { if (can_rgb) rgb_matrix_toggle(); } while(0)
 
 #define DELAYED_ACTION_READY(action, delay) ((action).pending && timer_elapsed((action).timer) > (delay))
 typedef struct {
@@ -65,9 +65,9 @@ static delayed_action_t gaming_rain = (delayed_action_t) {
     .pending = false
 };
 
-enum custom_keycodes
-{
-    MUTE_RGB = SAFE_RANGE
+enum custom_keycodes {
+    MUTE_RGB = SAFE_RANGE,
+    GAMING_TG
 };
 
 // clang-format off
@@ -81,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LSFT,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN, KC_RALT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, TG(_GAMING),MUTE_RGB, KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
+        KC_LCTL,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, GAMING_TG,MUTE_RGB, KC_N,    KC_M,  KC_COMM,  KC_DOT, KC_SLSH, KC_BSLS,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                             ESC_ALT, TAB_SIG,  KC_SPC,   KC_ENT, KC_BSPC, KC_LGUI
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -107,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ├────────┼────────┼────────┼────────┼────────┼────────┤                  ├────────┼────────┼────────┼────────┼────────┼────────┤
         KC_LCTL,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                       KC_H,    KC_J,    KC_K,    KC_L,   KC_UP,  KC_RSFT,
     // ├────────┼────────┼────────┼────────┼────────┼────────┼────────┐┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-        KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, TG(_GAMING),MUTE_RGB, KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_RGHT,
+        KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, GAMING_TG,MUTE_RGB, KC_N,    KC_M,  KC_COMM, KC_LEFT, KC_DOWN, KC_RGHT,
     // └────────┴────────┴────────┴────────┼────────┼────────┼────────┤├────────┼────────┼────────┼────────┴────────┴────────┴────────┘
                                            KC_LALT, MO(_GAMOD),KC_SPC,   KC_ENT, KC_BSPC, KC_ESC
     //                                     └────────┴────────┴────────┘└────────┴────────┴────────┘
@@ -131,10 +131,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record)
 {
     switch (keycode) {
-        case TAB_SIG:
-            return 100;
-        default:
-            return TAPPING_TERM;
+        case TAB_SIG: return 100;
+        default:      return TAPPING_TERM;
     }
 }
 
@@ -161,10 +159,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
     static const uint8_t cluster_leds[] = {24, 25, 26, 27, 61, 60, 59, 58};
 
     if (!can_rgb) return true;
-    if (host_keyboard_led_state().caps_lock)
-    {
-        for (size_t i = 0; i < ARRAY_SIZE(cluster_leds); i++)
-        {
+    if (host_keyboard_led_state().caps_lock) {
+        for (size_t i = 0; i < ARRAY_SIZE(cluster_leds); i++) {
             RGB_MATRIX_INDICATOR_SET_COLOR(cluster_leds[i], 0, 24, 0);
         }
     }
@@ -174,22 +170,16 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state))
     {
-        case _QWERTY:
+        case _QWERTY: {
             gaming_rain.pending = false;
             rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
             rgb_set_color(MY_PURPLE);
-            break;
-        case _SIGNS:
+        } break;
+        case _SIGNS: {
             gaming_rain.pending = false;
             rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
             rgb_set_color(MY_RED);
-            break;
-        case _GAMING:
-            rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
-            rgb_set_color(MY_YELLOW);
-            gaming_rain.timer = timer_read();
-            gaming_rain.pending = true;
-            break;
+        } break;
     }
     return state;
 }
@@ -223,6 +213,7 @@ static bool update_rgb(bool new_state)
         sizeof(new_state), &new_state,
         sizeof(response), &response
     );
+
     return success
         && response.written
         && response.new_state == new_state;
@@ -232,14 +223,12 @@ void housekeeping_task_user(void)
 {
     if (!is_keyboard_master()) return;
 
-    if (DELAYED_ACTION_READY(rgb_sync, RGB_SYNC_RETRY_INTERVAL))
-    {
+    if (DELAYED_ACTION_READY(rgb_sync, RGB_SYNC_RETRY_INTERVAL)) {
         rgb_sync.pending = !update_rgb(can_rgb);
         rgb_sync.timer = timer_read();
     }
 
-    if (DELAYED_ACTION_READY(gaming_rain, GAMING_RAIN_DELAY))
-    {
+    if (DELAYED_ACTION_READY(gaming_rain, GAMING_RAIN_DELAY)) {
         gaming_rain.pending = false;
         rgb_set_mode(RGB_MATRIX_PIXEL_RAIN);
     }
@@ -251,18 +240,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     static uint16_t mute_timer;
 
     switch (keycode) {
+        case GAMING_TG: {
+            if (record->event.pressed) {
+                layer_invert(_GAMING);
+                if (layer_state_is(_GAMING)) {
+                    rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
+                    rgb_set_color(MY_YELLOW);
+                    gaming_rain.timer = timer_read();
+                    gaming_rain.pending = true;
+                } else {
+                    gaming_rain.pending = false;
+                }
+            }
+            return false;
+        } break;
         case MUTE_RGB: {
             if (record->event.pressed) {
                 mute_timer = timer_read();
                 return false;
             }
-            if (timer_elapsed(mute_timer) < TAPPING_TERM) {
+            if (timer_elapsed(mute_timer) < TAPPING_TERM)
                 tap_code(KC_MUTE);
-            } else if (can_rgb) rgb_matrix_toggle();
+            else
+                rgb_toggle();
+
             return false;
-        };
+        } break;
         default: break;
     }
+
     return true;
 }
 
@@ -276,8 +282,7 @@ bool shutdown_user(bool)
 void keyboard_post_init_user(void)
 {
     transaction_register_rpc(RGB_STATE, update_rgb_slave_handler);
-    if (is_keyboard_master())
-    {
+    if (is_keyboard_master()) {
         rgb_sync.pending = !update_rgb(true);
         rgb_sync.timer = timer_read();
     }
