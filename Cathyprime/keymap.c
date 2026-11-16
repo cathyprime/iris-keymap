@@ -44,14 +44,26 @@ enum layers
 
 volatile bool can_rgb = false;
 #define RGB_SYNC_RETRY_INTERVAL 100
-static uint16_t rgb_sync_timer = 0;
-static bool     rgb_sync_pending = false;
 #define GAMING_RAIN_DELAY 120
-static uint16_t gaming_rain_timer = 0;
-static bool     gaming_rain_pending = false;
-#define rgb_set_mode(mode) if (can_rgb) rgb_matrix_mode_noeeprom(mode)
-#define rgb_set_color(...) if (can_rgb) rgb_matrix_sethsv_noeeprom(__VA_ARGS__)
-#define rgb_enable()       if (can_rgb) rgb_matrix_enable_noeeprom()
+#define rgb_set_mode(mode) do { if (can_rgb) rgb_matrix_mode_noeeprom(mode); } while(0)
+#define rgb_set_color(...) do { if (can_rgb) rgb_matrix_sethsv_noeeprom(__VA_ARGS__); } while(0)
+#define rgb_enable()       do { if (can_rgb) rgb_matrix_enable_noeeprom(); } while(0)
+
+#define DELAYED_ACTION_READY(action, delay) ((action).pending && timer_elapsed((action).timer) > (delay))
+typedef struct {
+    uint16_t timer;
+    bool pending;
+} delayed_action_t;
+
+static delayed_action_t rgb_sync = (delayed_action_t) {
+    .timer = 0,
+    .pending = false
+};
+
+static delayed_action_t gaming_rain = (delayed_action_t) {
+    .timer = 0,
+    .pending = false
+};
 
 enum custom_keycodes
 {
@@ -144,25 +156,16 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record)
  *             |--|62|--|    |--|28|--|
  */
 
-/*
- * |00|01|02|03|04|05|          |39|38|37|36|35|34|
- * |11|10|09|08|07|06|          |40|41|42|43|44|45|
- * |12|13|14|15|16|17|          |51|50|49|48|47|46|
- * |23|22|21|20|19|18|27|    |61|52|53|54|55|56|57|
- *             |24|25|26|    |60|59|58|
- */
-
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
 {
-    uint8_t indices[] = {24, 25, 26, 27, 61, 60, 59, 58};
-    size_t indices_count = sizeof(indices) / sizeof(indices[0]);
+    static const uint8_t cluster_leds[] = {24, 25, 26, 27, 61, 60, 59, 58};
 
     if (!can_rgb) return true;
     if (host_keyboard_led_state().caps_lock)
     {
-        for (size_t i = 0; i < indices_count; i++)
+        for (size_t i = 0; i < ARRAY_SIZE(cluster_leds); i++)
         {
-            rgb_matrix_set_color(indices[i], 0, 24, 0);
+            RGB_MATRIX_INDICATOR_SET_COLOR(cluster_leds[i], 0, 24, 0);
         }
     }
     return true;
@@ -172,20 +175,20 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state))
     {
         case _QWERTY:
-            gaming_rain_pending = false;
+            gaming_rain.pending = false;
             rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
             rgb_set_color(MY_PURPLE);
             break;
         case _SIGNS:
-            gaming_rain_pending = false;
+            gaming_rain.pending = false;
             rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
             rgb_set_color(MY_RED);
             break;
         case _GAMING:
             rgb_set_mode(RGB_MATRIX_SOLID_REACTIVE);
             rgb_set_color(MY_YELLOW);
-            gaming_rain_timer = timer_read();
-            gaming_rain_pending = true;
+            gaming_rain.timer = timer_read();
+            gaming_rain.pending = true;
             break;
     }
     return state;
@@ -196,7 +199,7 @@ typedef struct {
     bool written;
 } acknowledgement_t;
 
-void update_rgb_slave_handler(uint8_t in_buflen, const void *in_data, uint8_t out_buflen, void *out_data)
+static void update_rgb_slave_handler(uint8_t in_buflen, const void *in_data, uint8_t out_buflen, void *out_data)
 {
     can_rgb = *(const bool*)in_data;
     *(acknowledgement_t*)out_data = (acknowledgement_t) {
@@ -205,7 +208,10 @@ void update_rgb_slave_handler(uint8_t in_buflen, const void *in_data, uint8_t ou
     };
 }
 
-bool update_rgb(bool new_state)
+// true -> both master and slave are updated
+// false -> transaction either not suceeded or slave didn't update it confirm the update
+// even when false, the slave might've updated it
+static bool update_rgb(bool new_state)
 {
     if (!is_keyboard_master()) return false;
 
@@ -224,15 +230,17 @@ bool update_rgb(bool new_state)
 
 void housekeeping_task_user(void)
 {
-    if (is_keyboard_master() && rgb_sync_pending && timer_elapsed(rgb_sync_timer) >= RGB_SYNC_RETRY_INTERVAL)
+    if (!is_keyboard_master()) return;
+
+    if (DELAYED_ACTION_READY(rgb_sync, RGB_SYNC_RETRY_INTERVAL))
     {
-        rgb_sync_pending = !update_rgb(can_rgb);
-        rgb_sync_timer = timer_read();
+        rgb_sync.pending = !update_rgb(can_rgb);
+        rgb_sync.timer = timer_read();
     }
 
-    if (gaming_rain_pending && timer_elapsed(gaming_rain_timer) > GAMING_RAIN_DELAY)
+    if (DELAYED_ACTION_READY(gaming_rain, GAMING_RAIN_DELAY))
     {
-        gaming_rain_pending = false;
+        gaming_rain.pending = false;
         rgb_set_mode(RGB_MATRIX_PIXEL_RAIN);
     }
 }
@@ -240,19 +248,17 @@ void housekeeping_task_user(void)
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     log_msg("process_record_user");
-    static uint16_t timer;
+    static uint16_t mute_timer;
 
     switch (keycode) {
         case MUTE_RGB: {
             if (record->event.pressed) {
-                timer = timer_read();
+                mute_timer = timer_read();
                 return false;
             }
-            if (timer_elapsed(timer) < TAPPING_TERM) {
+            if (timer_elapsed(mute_timer) < TAPPING_TERM) {
                 tap_code(KC_MUTE);
-            } else {
-                if (can_rgb) rgb_matrix_toggle();
-            }
+            } else if (can_rgb) rgb_matrix_toggle();
             return false;
         };
         default: break;
@@ -262,7 +268,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
 bool shutdown_user(bool)
 {
-    rgb_sync_pending = false;
+    rgb_sync.pending = false;
     update_rgb(false);
     return true;
 }
@@ -272,8 +278,8 @@ void keyboard_post_init_user(void)
     transaction_register_rpc(RGB_STATE, update_rgb_slave_handler);
     if (is_keyboard_master())
     {
-        rgb_sync_pending = !update_rgb(true);
-        rgb_sync_timer = timer_read();
+        rgb_sync.pending = !update_rgb(true);
+        rgb_sync.timer = timer_read();
     }
     #ifdef CONSOLE_ENABLE
     debug_enable = true;
