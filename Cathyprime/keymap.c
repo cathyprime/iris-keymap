@@ -42,7 +42,10 @@ enum layers
 #define ESC_ALT MT(MOD_LALT, KC_ESC)
 #define TAB_GUI MT(MOD_LGUI, KC_TAB)
 
-bool can_rgb = false;
+volatile bool can_rgb = false;
+#define RGB_SYNC_RETRY_INTERVAL 100
+static uint16_t rgb_sync_timer = 0;
+static bool     rgb_sync_pending = false;
 #define GAMING_RAIN_DELAY 120
 static uint16_t gaming_rain_timer = 0;
 static bool     gaming_rain_pending = false;
@@ -154,7 +157,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
     uint8_t indices[] = {24, 25, 26, 27, 61, 60, 59, 58};
     size_t indices_count = sizeof(indices) / sizeof(indices[0]);
 
-    if (!can_rgb) return;
+    if (!can_rgb) return true;
     if (host_keyboard_led_state().caps_lock)
     {
         for (size_t i = 0; i < indices_count; i++)
@@ -188,8 +191,45 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
+typedef struct {
+    bool new_state;
+    bool written;
+} acknowledgement_t;
+
+void update_rgb_slave_handler(uint8_t in_buflen, const void *in_data, uint8_t out_buflen, void *out_data)
+{
+    can_rgb = *(const bool*)in_data;
+    *(acknowledgement_t*)out_data = (acknowledgement_t) {
+        .new_state = can_rgb,
+        .written = true
+    };
+}
+
+bool update_rgb(bool new_state)
+{
+    if (!is_keyboard_master()) return false;
+
+    can_rgb = new_state;
+    acknowledgement_t response = { .written = false };
+
+    bool success = transaction_rpc_exec(
+        RGB_STATE,
+        sizeof(new_state), &new_state,
+        sizeof(response), &response
+    );
+    return success
+        && response.written
+        && response.new_state == new_state;
+}
+
 void housekeeping_task_user(void)
 {
+    if (is_keyboard_master() && rgb_sync_pending && timer_elapsed(rgb_sync_timer) >= RGB_SYNC_RETRY_INTERVAL)
+    {
+        rgb_sync_pending = !update_rgb(can_rgb);
+        rgb_sync_timer = timer_read();
+    }
+
     if (gaming_rain_pending && timer_elapsed(gaming_rain_timer) > GAMING_RAIN_DELAY)
     {
         gaming_rain_pending = false;
@@ -220,23 +260,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     return true;
 }
 
-void update_rgb_slave_handler(uint8_t in_buflen, const void* in_data, uint8_t, void*)
-{
-    const bool *new_state = (const bool*)in_data;
-    can_rgb = *new_state;
-}
-
-void update_rgb(bool new_state)
-{
-    if (is_keyboard_master())
-    {
-        can_rgb = new_state;
-        transaction_rpc_send(RGB_STATE, sizeof(can_rgb), &can_rgb);
-    }
-}
-
 bool shutdown_user(bool)
 {
+    rgb_sync_pending = false;
     update_rgb(false);
     return true;
 }
@@ -244,7 +270,11 @@ bool shutdown_user(bool)
 void keyboard_post_init_user(void)
 {
     transaction_register_rpc(RGB_STATE, update_rgb_slave_handler);
-    update_rgb(true);
+    if (is_keyboard_master())
+    {
+        rgb_sync_pending = !update_rgb(true);
+        rgb_sync_timer = timer_read();
+    }
     #ifdef CONSOLE_ENABLE
     debug_enable = true;
     #endif
