@@ -49,10 +49,6 @@ static bool     gaming_rain_pending = false;
 #define rgb_set_mode(mode) if (can_rgb) rgb_matrix_mode_noeeprom(mode)
 #define rgb_set_color(...) if (can_rgb) rgb_matrix_sethsv_noeeprom(__VA_ARGS__)
 #define rgb_enable()       if (can_rgb) rgb_matrix_enable_noeeprom()
-static inline void rgb_toggle(void)
-{
-    if (can_rgb) rgb_matrix_toggle();
-}
 
 enum custom_keycodes
 {
@@ -153,24 +149,19 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record)
  *             |24|25|26|    |60|59|58|
  */
 
-const static uint8_t indexes[] = {24, 25, 26, 27, 61, 60, 59, 58};
-const static size_t numIndexes = sizeof(indexes) / sizeof(indexes[0]);
-
-static void cluster_color(void)
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
 {
+    uint8_t indices[] = {24, 25, 26, 27, 61, 60, 59, 58};
+    size_t indices_count = sizeof(indices) / sizeof(indices[0]);
+
     if (!can_rgb) return;
     if (host_keyboard_led_state().caps_lock)
     {
-        for (size_t i = 0; i < numIndexes; i++)
+        for (size_t i = 0; i < indices_count; i++)
         {
-            rgb_matrix_set_color(indexes[i], 0, 24, 0);
+            rgb_matrix_set_color(indices[i], 0, 24, 0);
         }
     }
-}
-
-bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
-{
-    cluster_color();
     return true;
 }
 
@@ -220,7 +211,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             if (timer_elapsed(timer) < TAPPING_TERM) {
                 tap_code(KC_MUTE);
             } else {
-                rgb_toggle();
+                if (can_rgb) rgb_matrix_toggle();
             }
             return false;
         };
